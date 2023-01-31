@@ -31,7 +31,7 @@ namespace WebApplication1.Controllers
         {
             ViewBag.Message = "Your login submit page.";
             // if ok
-            TempData["msg"] = "success";
+            TempData["msg"] = "Login success";
             return RedirectToAction("Index", "Dashboard");
         }
         public ActionResult Login()

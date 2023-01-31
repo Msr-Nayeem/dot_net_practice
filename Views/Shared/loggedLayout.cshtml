@@ -11,20 +11,23 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
-    <div>
-        <a href="/dashboard/index" class="btn btn-primary">Dashboard</a>
-        <a href="/dashboard/myprofile" class="btn btn-success">Profile</a>
-        <a href="/dashboard/setting" class="btn btn-warning">Setting</a>
-        <a href="/dashboard/logout" class="btn btn-warning">Logout</a>
-    </div>
-    <hr />
-    <div>
+<body>   
+    <nav class="navbar sticky-top navbar-primary bg-warning">
+        <div class="text-center">
+            <a class="btn btn-primary" href="/dashboard/index">Home</a>
+            <a class="btn btn-primary" href="/dashboard/myprofile">Profile</a>
+            <a class="btn btn-primary" href="/dashboard/setting">Setting</a>
+            <a class="btn btn-primary" href="/dashboard/logout">Logout</a>
+        </div>
+    </nav>
+    
+  
+    <div class="container body-content">
         @RenderBody()
     </div>
     <hr />
     <div>
-        Copyright @@.net[b]
+        Copyright @@ @DateTime.Now.Year
     </div>
 </body>
 </html>

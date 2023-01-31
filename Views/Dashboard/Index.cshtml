@@ -4,13 +4,9 @@
     Layout = "~/Views/Shared/loggedLayout.cshtml";
 }
 
-<h2>Index</h2>
-
-
-
 @if (TempData["msg"] != null)
 {
-    <h4>@TempData["msg"]</h4>
+    <span>@TempData["Msg"]</span>
 }
 <table class="table table-success table-bordered border-dark table-hover">
     <tr class="table-warning border-dark">
