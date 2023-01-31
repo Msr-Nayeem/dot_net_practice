@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/loggedLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+
+@if (TempData["msg"] != null)
+{
+    <h4>@TempData["msg"]</h4>
+}
+<table class="table table-success table-bordered border-dark table-hover">
+    <tr class="table-warning border-dark">
+        <td>Serial</td>
+        <td>Name</td>
+    </tr>
+    @if (ViewBag.List.Length == 0)
+    {
+    <tr>
+        <td>No Data available</td>
+    </tr>
+    }
+    else
+    {
+        for (int i = 0; i < ViewBag.List.Length; i++)
+        {
+            <tr>
+                <td>@(i+1)</td>
+                <td>@ViewBag.List[i]</td>
+            </tr>
+        }
+    }
+
+
+</table>
