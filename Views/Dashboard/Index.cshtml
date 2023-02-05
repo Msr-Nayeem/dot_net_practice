@@ -13,22 +13,28 @@
         <td>Serial</td>
         <td>Name</td>
     </tr>
-    @if (ViewBag.List.Length == 0)
-    {
-    <tr>
-        <td>No Data available</td>
-    </tr>
-    }
-    else
-    {
-        for (int i = 0; i < ViewBag.List.Length; i++)
-        {
-            <tr>
-                <td>@(i+1)</td>
-                <td>@ViewBag.List[i]</td>
-            </tr>
-        }
-    }
+ <tr>
+     <td>@ViewBag.list.Id</td>
+     <td>@ViewBag.list.Name</td>
+     <td>@ViewBag.list.CGPA</td>
+ </tr>
 
 
 </table>
+<table class="table table-success table-bordered border-dark table-hover">
+    <tr class="table-warning border-dark">
+        <td>ID</td>
+        <td>Name</td>
+        <td>CGPA</td>
+    </tr>
+
+    @foreach (var items in ViewBag.multipleList)
+    {
+        <tr>
+            <td>@items.Id</td>
+            <td>@items.Name</td>
+            <td>@items.CGPA</td>
+        </tr>
+     }
+       
+    </table>
