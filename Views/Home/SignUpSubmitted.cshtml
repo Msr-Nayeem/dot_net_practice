@@ -1,4 +1,5 @@
-﻿
+﻿@model WebApplication1.Models.SignUp
+
 @{
     ViewBag.Title = "SignUpSubmitted";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,3 +7,6 @@
 
 <h2>SignUpSubmitted</h2>
 
+<h1>Name : @Model.Namee</h1>
+<h1>Email : @Model.Emaill</h1>
+<h1>Passsword : @Model.Passwordd</h1>

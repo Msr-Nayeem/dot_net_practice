@@ -48,9 +48,30 @@ namespace WebApplication1.Controllers
 
             return View();
         }
-       public ActionResult SignUpSubmitted()
+       public ActionResult SignUpSubmitted(SignUp datas)
         {
-            return View();
+            //auto class 
+            //SignUp datas = new SignUp();
+
+            // from HttpRequestBase Request -- SignUpSubmitted()
+
+            //datas.Namee = Request["name"];
+            //datas.Emaill = Request["email"];
+            //datas.Passwordd = Request["password"];
+
+            //form collection -- SignUpSubmitted(FormCollection form)
+            //datas.Namee = form["name"];
+            //datas.Emaill = form["email"];
+            //datas.Passwordd = form["password"];
+
+            // form direct variables -- SignUpSubmitted(string Name, string Email, string Password)
+            //datas.Namee = Name;
+            //datas.Emaill = Email;
+            //datas.Passwordd = Password;
+
+            
+
+            return View(datas);
         }
         public ActionResult Info() { 
         Home h = new Home();
@@ -72,6 +93,20 @@ namespace WebApplication1.Controllers
             homes.Add(h);
             }
             return View(homes);
+        }
+
+
+        public ActionResult Registration()
+        {
+            ViewBag.Message = "Registration page.";
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Registration(SignUp datas)
+        {
+
+            return View();
         }
     }
 }

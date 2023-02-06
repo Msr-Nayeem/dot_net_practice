@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Registration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Registration</h2>
+
+<form action="/home/registration" method="post">
+
+    Name : <input type="text" class="form-control" name="name" placeholder="Enter Name" />
+    <br /><br />
+    Email: <input type="email" class="form-control" name="email" placeholder="Email" />
+    <br /><br />
+    Password: <input type="text" class="form-control" name="password" placeholder="Password" />
+    <br /><br />
+    DOB:  <input type="date" class="form-control" name="dob"/>
+    <br /><br />
+    Gender: <input type="radio" name="gender" value="male" />Male
+    <input type="radio" name="gender" value="female" />female
+    <br /><br />
+    <button class="btn btn-primary">Sign Up</button>
+</form>
