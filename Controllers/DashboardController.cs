@@ -37,7 +37,9 @@ namespace WebApplication1.Controllers
                     Id = id, CGPA= cgpa, Name= name
                 }) ;
             }
-            @ViewBag.Title = "Dashboard";
+          
+
+            ViewBag.Title = "Dashboard";
             ViewBag.List = single;
             ViewBag.multipleList = multipleStudent;
             return View();
