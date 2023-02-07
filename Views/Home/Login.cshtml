@@ -5,7 +5,19 @@
 }
 
 <h2>Login</h2>
-<input type="text" class="form-control" name="email" placeholder="email"/> <br /><br />
-<input type="text" class="form-control" name="password"placeholder="password"/><br /><br />
-<a href="/Home/LoginSubmit" class="btn btn-primary">Sign in</a>
+@if (TempData["loginError"] != null)
+{
+    <div class="alert alert-info" role="alert">
+        <span>@TempData["loginError"]</span>
+    </div>
+}
+
+<form action="/home/login" method="post">
+
+    Email: <input type="email" class="form-control" name="Email" placeholder="Email" />
+    <br />
+    Password: <input type="text" class="form-control" name="Password" placeholder="Password" />
+    <br />
+    <button type="submit" class="btn btn-primary">Log In</button>
+</form>
 

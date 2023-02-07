@@ -8,6 +8,7 @@ using WebApplication1.Models;
 using System.Data.SqlClient;
 using System.Web.Helpers;
 using System.Xml.Linq;
+using System.Data;
 
 namespace WebApplication1.Controllers
 {
@@ -32,12 +33,29 @@ namespace WebApplication1.Controllers
 
             return View();
         }
-        public ActionResult LoginSubmit()
+        [HttpPost]
+        public ActionResult Login(string Email, string Password)
         {
-            ViewBag.Message = "Your login submit page.";
-            // if ok
-            TempData["msg"] = "Login success";
-            return RedirectToAction("Index", "Dashboard");
+
+            string connString = @"server=DESKTOP-AVD9M43;Database=Student;Integrated Security=true";
+            SqlConnection conn = new SqlConnection(connString);
+            string query = "select * from Students where email = '" + Email + "' and password = '" + Password + "' ";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            conn.Open();
+           SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                return RedirectToAction("myProfile", "Dashboard");
+            }
+            else
+            {
+                TempData[key: "loginError"] = "Email/Password not matched";
+                return View();
+            }
+            
+
+
+
         }
         public ActionResult Login()
         {
