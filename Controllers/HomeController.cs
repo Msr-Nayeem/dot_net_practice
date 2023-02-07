@@ -5,6 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using WebApplication1.Models;
+using System.Data.SqlClient;
+using System.Web.Helpers;
+using System.Xml.Linq;
 
 namespace WebApplication1.Controllers
 {
@@ -103,9 +106,23 @@ namespace WebApplication1.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Registration(SignUp datas)
+        public ActionResult Registration(string Namee,string Emaill,string Passwordd)
         {
+           // string connString = @"server=DESKTOP-AVD9M43;Database=Student;User Id=.;Password=msr@nayeem01";
+             string connString = @"server=DESKTOP-AVD9M43;Database=Student;Integrated Security=true";
+            SqlConnection conn = new SqlConnection(connString);
 
+            //tring query = "INSERT INTO Students (name, email, password) VALUES ('Shahidur', 'shahidur@gmail.com', '123f')";
+            String query = "INSERT INTO Students (name, email, password) VALUES ('" + Namee+ "', '" + Emaill+ "', '" + Passwordd+ "')";
+
+            SqlCommand cmd = new SqlCommand(query,conn);
+            conn.Open();
+            var effectedRow = cmd.ExecuteNonQuery();
+            if (effectedRow > 0)
+            {
+                TempData["msg"] = "Inserted";
+            }
+            conn.Close();
             return View();
         }
     }
