@@ -85,6 +85,8 @@ namespace WebApplication1.Controllers
         }
         
         public ActionResult List() {
+
+
             List<Home> homes = new List<Home>();
             for(int i = 0; i<10; i++)
             {
@@ -121,6 +123,10 @@ namespace WebApplication1.Controllers
             if (effectedRow > 0)
             {
                 TempData["msg"] = "Inserted";
+            }
+            else
+            {
+                TempData["msg"] = "failed";
             }
             conn.Close();
             return View();

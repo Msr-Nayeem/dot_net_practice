@@ -18,13 +18,15 @@ namespace WebApplication1.Controllers
         }
         public ActionResult Index()
         {
+            ViewBag.Title = "Dashboard";
+
             Student single = new Student();
-            
                 single.Id = 38037;
                 single.Name = "Nayeem";
                 single.CGPA = "3.30";
+            ViewBag.List = single;
 
-           
+            //list
             List<Student> multipleStudent = new List<Student>();  
             for(int i = 0;i<10; i++)
             {
@@ -37,11 +39,20 @@ namespace WebApplication1.Controllers
                     Id = id, CGPA= cgpa, Name= name
                 }) ;
             }
-          
-
-            ViewBag.Title = "Dashboard";
-            ViewBag.List = single;
             ViewBag.multipleList = multipleStudent;
+
+            //Array
+            Student[] ss = new Student[10];
+            for(int i = 0;i<ss.Length; i++)
+            {
+                ss[i] = new Student();
+                ss[i].Id = i + 1;
+                ss[i].CGPA = "3.3" + (i);
+                ss[i].Name = "msr" + (i + 1);
+            }
+            ViewBag.Students = ss;
+            
+            
             return View();
         }
         public ActionResult myProfile()
