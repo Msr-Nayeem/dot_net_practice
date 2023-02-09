@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Diagnostics;
 
 namespace WebApplication1.Controllers
 {
     public class DashboardController : Controller
     {
+
+
         // GET: Dashboard
+       
 
         public class Student
         {
@@ -20,10 +24,12 @@ namespace WebApplication1.Controllers
         {
             ViewBag.Title = "Dashboard";
 
-            Student single = new Student();
-                single.Id = 38037;
-                single.Name = "Nayeem";
-                single.CGPA = "3.30";
+            Student single = new Student
+            {
+                Id = 38037,
+                Name = "Nayeem",
+                CGPA = "3.30"
+            };
             ViewBag.List = single;
 
             //list
@@ -55,13 +61,21 @@ namespace WebApplication1.Controllers
             
             return View();
         }
-        public ActionResult myProfile()
+        public ActionResult MyProfile()
         {
+            HttpCookie nameCookie = Request.Cookies["email"];
+
+            //If Cookie exists fetch its value.
+            string name = nameCookie != null ? nameCookie.Value.Split('=')[0] : "undefined";
+
+
+           // Debug.WriteLine(name);
             @ViewBag.Title = "My Profile";
             ViewBag.name = "Shahidur rahman nayeem";
             ViewBag.section = "B";
             ViewBag.id = "18-38037-2";
-            
+            ViewBag.username = name;
+            Console.WriteLine(name);
             return View();
         }
         public ActionResult Setting()
@@ -71,6 +85,15 @@ namespace WebApplication1.Controllers
         }
         public ActionResult Logout()
         {
+            //session clear
+            Session["email"] = null;
+
+            //cookie clear
+            var email = Request.Cookies["email"];
+            email.Expires = DateTime.Now.AddDays(-1);
+            Response.Cookies.Add(email);
+
+
             return RedirectToAction("Login", "Home");
         }
     }
