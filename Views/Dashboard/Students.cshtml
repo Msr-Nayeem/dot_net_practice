@@ -1,0 +1,24 @@
+﻿@model List<WebApplication1.Models.StudentsDashboard>
+@{
+    ViewBag.Title = "Students";
+    Layout = "~/Views/Shared/loggedLayout.cshtml";
+}
+
+<h2>Students from DATABASE by model</h2>
+<table class="table table-success table-bordered border-dark table-hover">
+    <tr class="table-warning border-dark">
+        <td>ID</td>
+        <td>Name</td>
+        <td>Email</td>
+    </tr>
+
+    @foreach (var items in Model)
+    {
+        <tr>
+            <td>@items.Id</td>
+            <td>@items.Name</td>
+            <td>@items.Email</td>
+        </tr>
+    }
+
+</table>

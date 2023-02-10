@@ -7,5 +7,21 @@
 
 <h2>Profile</h2>
 <hr />
-<h2>session :- @Session["email"]!</h2>
-<h2>cookie :- @ViewBag.username</h2>
+@if (@Session["email"] == null)
+{
+
+    Response.Redirect("~/Home/Login");
+}
+else
+{
+    <h2>Session:- @Session["email"]!</h2>
+}
+
+@if (@ViewBag.username == "undefined")
+{
+   <h2>Cookie:- Login Required</h2>
+}
+else
+{
+    <h2>cookie :- @ViewBag.username</h2>
+}

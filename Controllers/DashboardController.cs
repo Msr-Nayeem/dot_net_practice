@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using WebApplication1.Models;
 //using System.Diagnostics;
 
 namespace WebApplication1.Controllers
@@ -78,10 +81,45 @@ namespace WebApplication1.Controllers
          //   Console.WriteLine(name);
             return View();
         }
-        public ActionResult Setting()
+      
+        public ActionResult Students()
         {
-            @ViewBag.Title = "Setting";
-            return View();
+            @ViewBag.Title = "Students";
+
+            string connString = @"server=DESKTOP-AVD9M43;Database=Student;Integrated Security=true";
+            string query = "select * from Students";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                List<StudentsDashboard> list = new List<StudentsDashboard>();
+
+                    while (reader.Read())
+                    {
+                        StudentsDashboard s = new StudentsDashboard()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("id")),
+                            Name = reader.GetString(reader.GetOrdinal("name")),
+                            Email = reader.GetString(reader.GetOrdinal("email"))
+                            
+                    };
+                    list.Add(s);    
+                    }
+                    conn.Close();
+                    return View(list);
+                }
+            }
+            catch (SqlException ex)
+            {
+                TempData[key: "loginError"] = ex.Message;
+                return View();
+            }
+
+          
         }
         public ActionResult Logout()
         {
