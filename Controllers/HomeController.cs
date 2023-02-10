@@ -66,7 +66,7 @@ namespace WebApplication1.Controllers
             //    return View();
             //}
             string connString = @"server=DESKTOP-AVD9M43;Database=Student;Integrated Security=true";
-            string query = "select * from Students where email = '" + Email + "' and password = '" + Password + "' ";
+            string query = "select * from Students where Email = '" + Email + "' and password = '" + Password + "' ";
             try
             {
                 using (SqlConnection conn = new SqlConnection(connString))
@@ -165,28 +165,38 @@ namespace WebApplication1.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Registration(string Namee,string Emaill,string Passwordd)
+       // public ActionResult Registration(string Namee,string Emaill,string Passwordd)
+        public ActionResult Registration(StudentsDashboard s)
         {
-           // string connString = @"server=DESKTOP-AVD9M43;Database=Student;User Id=.;Password=msr@nayeem01";
-             string connString = @"server=DESKTOP-AVD9M43;Database=Student;Integrated Security=true";
-            SqlConnection conn = new SqlConnection(connString);
-
-            //tring query = "INSERT INTO Students (name, email, password) VALUES ('Shahidur', 'shahidur@gmail.com', '123f')";
-            String query = "INSERT INTO Students (name, email, password) VALUES ('" + Namee+ "', '" + Emaill+ "', '" + Passwordd+ "')";
-
-            SqlCommand cmd = new SqlCommand(query,conn);
-            conn.Open();
-            var effectedRow = cmd.ExecuteNonQuery();
-            if (effectedRow > 0)
+            if (ModelState.IsValid)
             {
-                TempData["msg"] = "Inserted";
+                string connString = @"server=DESKTOP-AVD9M43;Database=Student;Integrated Security=true";
+                SqlConnection conn = new SqlConnection(connString);
+
+                //tring query = "INSERT INTO Students (name, email, password) VALUES ('Shahidur', 'shahidur@gmail.com', '123f')";
+                String query = "INSERT INTO Students (Name, Email, Password, Phone, Gender, Dob) VALUES ('" + s.Name + "', '" + s.Email + "', '" + s.Password + "', '" + s.Phone + "', '" + s.Gender + "', '" + s.Dob + "')";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                conn.Open();
+                var effectedRow = cmd.ExecuteNonQuery();
+                if (effectedRow > 0)
+                {
+                    TempData["msg"] = "Inserted";
+                }
+                else
+                {
+                    TempData["msg"] = "failed";
+                }
+                conn.Close();
+                return View();
             }
             else
             {
-                TempData["msg"] = "failed";
+                return View();
             }
-            conn.Close();
-            return View();
+           // string connString = @"server=DESKTOP-AVD9M43;Database=Student;User Id=.;Password=msr@nayeem01";
+
         }
     }
 }

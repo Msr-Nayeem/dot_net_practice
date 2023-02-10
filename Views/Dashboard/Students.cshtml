@@ -10,6 +10,10 @@
         <td>ID</td>
         <td>Name</td>
         <td>Email</td>
+        <td>Password</td>
+        <td>Phone</td>
+        <td>Date of birth</td>
+        <td>Gender</td>
     </tr>
 
     @foreach (var items in Model)
@@ -17,7 +21,11 @@
         <tr>
             <td>@items.Id</td>
             <td>@items.Name</td>
-            <td>@items.Email</td>
+            <td>@items.Email</td>   
+            <td>@items.Password</td>   
+            <td>@items.Phone</td>   
+            <td>@items.Dob</td>   
+            <td>@items.Gender</td>   
         </tr>
     }
 

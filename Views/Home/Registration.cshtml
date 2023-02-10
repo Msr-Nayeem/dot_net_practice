@@ -1,4 +1,4 @@
-﻿
+﻿@model WebApplication1.Models.StudentsDashboard
 @{
     ViewBag.Title = "Registration";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,25 +9,37 @@
 @if (TempData["msg"] != null)
 {
     <div class="alert alert-info" role="alert">
-        <span>@TempData["Msg"]</span>
+        <span>@TempData["msg"]</span>
     </div>
  }
   
 
-    <form action="/home/registration" method="post">
+<form action="/home/registration" method="post">
 
-        Name : <input type="text" class="form-control" name="Namee" placeholder="Enter Name" />
-        <br />
-        Email: <input type="email" class="form-control" name="Emaill" placeholder="Email" />
-        <br />
-        Password: <input type="text" class="form-control" name="Passwordd" placeholder="Password" />
-        <br />
-        Phone no::  <input type="text" class="form-control" name="phone" /><br />
-        DOB:  <input type="date" class="form-control" name="dob" />
-        <br />
-        Gender: <input type="radio" name="gender" value="male" />Male
-        <input type="radio" name="gender" value="female" />female
-        <br />
-        <button class="btn btn-primary">Sign Up</button>
-    </form>
+    Name : <input type="text" class="form-control" name="Name" placeholder="Enter Name" />
+    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+    <br />
+
+    Email: <input type="email" class="form-control" name="Email" placeholder="Email" />
+    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+    <br />
+
+    Password: <input type="text" class="form-control" name="Password" placeholder="Password" />
+    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+    <br />
+
+    Phone no:  <input type="text" class="form-control" name="Phone" /><br />
+    @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+    <br />
+    DOB:  <input type="date" class="form-control" name="Dob" />
+    @Html.ValidationMessageFor(m => m.Dob, "", new { @class = "text-danger" })
+    <br />
+
+    Gender: <input type="radio" name="Gender" value="Male" />Male
+    <input type="radio" name="Gender" value="Female" />female
+    @Html.ValidationMessageFor(m => m.Gender, "", new { @class = "text-danger" })
+    <br />
+
+    <button class="btn btn-primary">Sign Up</button>
+</form>
 

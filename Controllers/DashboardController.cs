@@ -102,9 +102,14 @@ namespace WebApplication1.Controllers
                     {
                         StudentsDashboard s = new StudentsDashboard()
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("id")),
-                            Name = reader.GetString(reader.GetOrdinal("name")),
-                            Email = reader.GetString(reader.GetOrdinal("email"))
+
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            Email = reader.GetString(reader.GetOrdinal("Email")),
+                            Password = reader.GetString(reader.GetOrdinal("Password")),
+                            Phone = reader.GetInt32(reader.GetOrdinal("Phone")),
+                            Dob = reader.GetDateTime(reader.GetOrdinal("Dob")).Date,
+                            Gender = reader.GetString(reader.GetOrdinal("Gender"))
                             
                     };
                     list.Add(s);    
