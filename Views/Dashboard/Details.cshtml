@@ -5,6 +5,12 @@
     Layout = "~/Views/Shared/loggedLayout.cshtml";
 }
 
+@if (TempData["result"] != null)
+{
+    <div class="alert alert-info" role="alert">
+        <span>@TempData["result"]</span>
+    </div>
+}
 <div class="container mt-5">
     <h2 class="text-center">Personal Information</h2>
     <hr />
@@ -14,8 +20,8 @@
 
         </div>
         <div class="col-md-8">
-        
-            <table class="table table-success table-bordered border-dark table-hover">
+
+            <table class="table table-bordered border-dark table-hover">
                 <tbody>
                     <tr>
                         <td>Id</td>
@@ -43,6 +49,7 @@
                     </tr>
                 </tbody>
             </table>
+            <a href="@Url.Action("Update", new { id = @Model.Id })" class="btn btn-primary">Edit/Update</a>
         </div>
     </div>
 </div>

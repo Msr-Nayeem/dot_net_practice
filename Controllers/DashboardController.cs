@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using WebApplication1.Models;
+using static WebApplication1.Controllers.DashboardController;
 //using System.Diagnostics;
 
 namespace WebApplication1.Controllers
@@ -86,10 +87,14 @@ namespace WebApplication1.Controllers
         public ActionResult Students(int? id = null, int? result = null)
         {
             @ViewBag.Title = "Students";
-            if(id != null)
+            if (id != null && result == 1)
             {
-                @ViewBag.Id = id;
-                @ViewBag.result = result;
+                TempData[key: "id"] = id;
+                TempData[key: "result"] = "Deleted Successfully";
+            }
+            else
+            {
+                TempData[key: "result"] = "Failed to delete";
             }
            
             string query = "select * from Students";
@@ -131,7 +136,7 @@ namespace WebApplication1.Controllers
           
         }
 
-        public ActionResult Details(int Id)
+        public ActionResult Details(int Id, int? result = null)
         {
             string query = "select * from Students where Id=@Id";
 
@@ -159,6 +164,18 @@ namespace WebApplication1.Controllers
                         };
                     }
                     conn.Close();
+                    if(result == 1)
+                    {
+                        TempData[key: "result"] = "Information Updated Successfully";
+                    }
+                    else if(result == 0)
+                    {
+                        TempData[key: "result"] = "Failed ! try again.";
+                    }
+                    else
+                    {
+                        TempData[key: "result"] = null;
+                    }
                     return View(student);
                 }
             }
@@ -204,7 +221,92 @@ namespace WebApplication1.Controllers
             // ViewBag.id = id;
             //  return RedirectToAction("Students", new { Id = id });
         }
-                public ActionResult Logout()
+
+        [HttpGet]
+        public ActionResult Update(int id)
+        {
+            string query = "select * from Students where Id=@Id";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    StudentsDashboard student = null;
+
+                    if (reader.Read())
+                    {
+                        student = new StudentsDashboard()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            Email = reader.GetString(reader.GetOrdinal("Email")),
+                            Phone = reader.GetInt32(reader.GetOrdinal("Phone")).ToString(),
+                            Dob = reader.GetDateTime(reader.GetOrdinal("Dob")),
+                            Gender = reader.GetString(reader.GetOrdinal("Gender"))
+                        };
+                    }
+                    conn.Close();
+                    return View(student);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return View();
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult Update(StudentsDashboard s)
+        {
+            try
+            {
+                string query = "UPDATE Students SET Name=@Name, Email=@Email, Phone=@Phone, Dob=@Dob, Gender=@Gender WHERE Id=@Id";
+
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Id", s.Id);
+                    cmd.Parameters.AddWithValue("@Name", s.Name);
+                    cmd.Parameters.AddWithValue("@Email", s.Email);
+                    cmd.Parameters.AddWithValue("@Phone", s.Phone);
+                    cmd.Parameters.AddWithValue("@Dob", s.Dob);
+                    cmd.Parameters.AddWithValue("@Gender", s.Gender);
+
+                    conn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    if (rowsAffected > 0)
+                    {
+                        // Update was successful
+                        return RedirectToAction("Details", new { s.Id, result = 1 });
+                    }
+                    else
+                    {
+                        // Update failed
+                        return RedirectToAction("Details", new { s.Id });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error to a log file or database for troubleshooting
+                Console.WriteLine("Error updating student information: " + ex.Message);
+
+                // Return a view with an error message
+                ViewBag.ErrorMessage = "An error occurred while updating the student information. Please try again later.";
+                return RedirectToAction("Details", new { s.Id });
+            }
+        }
+
+        public ActionResult Logout()
         {
             //session clear
             Session["email"] = null;

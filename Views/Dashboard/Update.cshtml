@@ -1,0 +1,36 @@
+﻿@model WebApplication1.Models.StudentsDashboard
+@{
+    ViewBag.Title = "Students";
+    Layout = "~/Views/Shared/loggedLayout.cshtml";
+}
+
+
+<h2>Update Information</h2>
+<form action="/Dashboard/Update" method="post">
+    Id : <input type="text" class="form-control" name="Id" Name" value="@Model.Id"  />
+
+    <br /><br />
+    Name : <input type="text" class="form-control" name="Name" placeholder="Enter Name" value="@Model.Name" />
+
+    <br /><br />
+
+    Email: <input type="email" class="form-control" name="Email" placeholder="Email" value="@Model.Email" />
+
+    <br /><br />
+
+
+    Phone no:  <input type="text" class="form-control" name="Phone" value="@Model.Phone" />
+
+    <br /><br />
+    DOB:  <input type="date" class="form-control" name="Dob" value="@Model.Dob.ToString("yyyy-MM-dd")" />
+
+    <br /><br />
+
+    Gender: <input type="radio" name="Gender" value="Male" @(Model.Gender == "Male" ? "checked" : "") />Male
+    <input type="radio" name="Gender" value="Female" @(Model.Gender == "Female" ? "checked" : "") />female<br />
+
+    <br /><br />
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-primary" href="@Url.Action("Details", "Dashboard", new { Id = @Model.Id })">Cancel</a>
+</form>

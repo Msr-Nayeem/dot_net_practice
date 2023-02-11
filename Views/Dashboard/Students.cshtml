@@ -36,24 +36,30 @@
     }
 
 }
-            <h2>Students from DATABASE by model</h2>
-            <table class="table table-success table-bordered border-dark table-hover">
-                <tr class="table-warning border-dark">
-                    <td>Name</td>
-                    <td>Email</td>
-                    <td>Gender</td>
-                    <td>Action</td>
-                </tr>
+@if (TempData["id"] != null && TempData["result"] != null)
+{
+    <div class="alert alert-info" role="alert">
+        <span>id -(@TempData["id"]) : @TempData["result"]</span>
+    </div>
+}
+<h2>Students from DATABASE by model</h2>
+<table class="table table-bordered table-hover">
+    <tr class="table-warning">
+        <td>Name</td>
+        <td>Email</td>
+        <td>Gender</td>
+        <td>Action</td>
+    </tr>
 
-                @foreach (var items in Model)
-                {
-                    <tr>
-                        @* <td>@items.Id</td> *@
-                        <td><a href="@Url.Action("Details", "Dashboard", new { Id = items.Id })">@items.Name</a></td>
-                        <td>@items.Email</td>
-                        <td>@items.Gender</td>
-                        <td><a href="@Url.Action("Delete", "Dashboard", new { id = items.Id })" class="btn btn-danger"><i class="fas fa-trash"></i>  Delete</a></td>
-                    </tr>
-                }
+    @foreach (var items in Model)
+    {
+        <tr>
+            @* <td>@items.Id</td> *@
+            <td><a href="@Url.Action("Details", "Dashboard", new { Id = items.Id })">@items.Name</a></td>
+            <td>@items.Email</td>
+            <td>@items.Gender</td>
+            <td><a href="@Url.Action("Delete", "Dashboard", new { id = items.Id })" class="btn btn-danger"><i class="fas fa-trash"></i>  Delete</a></td>
+        </tr>
+    }
 
-            </table>
+</table>
