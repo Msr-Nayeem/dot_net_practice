@@ -4,29 +4,56 @@
     Layout = "~/Views/Shared/loggedLayout.cshtml";
 }
 
-<h2>Students from DATABASE by model</h2>
-<table class="table table-success table-bordered border-dark table-hover">
-    <tr class="table-warning border-dark">
-        <td>ID</td>
-        <td>Name</td>
-        <td>Email</td>
-        <td>Password</td>
-        <td>Phone</td>
-        <td>Date of birth</td>
-        <td>Gender</td>
-    </tr>
-
-    @foreach (var items in Model)
+@*
+    @if (ViewBag.Deleted != null && (bool)ViewBag.Deleted == true)
     {
-        <tr>
-            <td>@items.Id</td>
-            <td>@items.Name</td>
-            <td>@items.Email</td>   
-            <td>@items.Password</td>   
-            <td>@items.Phone</td>   
-            <td>@items.Dob</td>   
-            <td>@items.Gender</td>   
-        </tr>
+        <div class="alert alert-success">
+            The record was deleted successfully.
+        </div>
+    }
+    else if (ViewBag.Deleted != null && (bool)ViewBag.Deleted == false)
+    {
+
+            There was an error deleting the record.
+        </div>
+    } *@
+
+@if (ViewBag.Id != null)
+{
+
+    if (@ViewBag.result == 0)
+    {
+        <div class="alert alert-danger">
+            <p>Id - @ViewBag.Id Failed to Delete</p>
+        </div>
+
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            <p>Id - @ViewBag.Id deleted Successfully</p>
+        </div>
     }
 
-</table>
+}
+            <h2>Students from DATABASE by model</h2>
+            <table class="table table-success table-bordered border-dark table-hover">
+                <tr class="table-warning border-dark">
+                    <td>Name</td>
+                    <td>Email</td>
+                    <td>Gender</td>
+                    <td>Action</td>
+                </tr>
+
+                @foreach (var items in Model)
+                {
+                    <tr>
+                        @* <td>@items.Id</td> *@
+                        <td><a href="@Url.Action("Details", "Dashboard", new { Id = items.Id })">@items.Name</a></td>
+                        <td>@items.Email</td>
+                        <td>@items.Gender</td>
+                        <td><a href="@Url.Action("Delete", "Dashboard", new { id = items.Id })" class="btn btn-danger"><i class="fas fa-trash"></i>  Delete</a></td>
+                    </tr>
+                }
+
+            </table>

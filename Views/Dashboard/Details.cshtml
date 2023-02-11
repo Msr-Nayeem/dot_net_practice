@@ -1,0 +1,48 @@
+﻿@model WebApplication1.Models.StudentsDashboard
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/loggedLayout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">Personal Information</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <img src="https://picsum.photos/300" alt="Random Image from Picsum">
+
+        </div>
+        <div class="col-md-8">
+        
+            <table class="table table-success table-bordered border-dark table-hover">
+                <tbody>
+                    <tr>
+                        <td>Id</td>
+                        <td>@Model.Id</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>@Model.Name</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>@Model.Email</td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td>@(string.Format("0{0}", Model.Phone))</td>
+                    </tr>
+                    <tr>
+                        <td>Dob</td>
+                        <td>@Model.Dob.ToString("dd-MMM-yyyy")</td>
+                    </tr>
+                    <tr>
+                        <td>Gender</td>
+                        <td>@Model.Gender</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

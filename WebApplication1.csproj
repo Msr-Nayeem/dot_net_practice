@@ -176,6 +176,7 @@
     <Content Include="Views\Home\List.cshtml" />
     <Content Include="Views\Home\Registration.cshtml" />
     <Content Include="Views\Dashboard\Students.cshtml" />
+    <Content Include="Views\Dashboard\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

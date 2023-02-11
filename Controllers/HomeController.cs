@@ -195,7 +195,7 @@ namespace WebApplication1.Controllers
             {
                 return View();
             }
-           // string connString = @"server=DESKTOP-AVD9M43;Database=Student;User Id=.;Password=msr@nayeem01";
+           
 
         }
     }
