@@ -71,18 +71,57 @@ namespace WebApplication1.Controllers
             HttpCookie nameCookie = Request.Cookies["email"];
 
             //If Cookie exists fetch its value.
-            string name = nameCookie != null ? nameCookie.Value.Split('=')[0] : "undefined";
+            string Email = nameCookie != null ? nameCookie.Value.Split('=')[0] : "undefined";
 
 
-           // Debug.WriteLine(name);
+            // Debug.WriteLine(name);
             @ViewBag.Title = "My Profile";
             ViewBag.name = "Shahidur rahman nayeem";
             ViewBag.section = "B";
             ViewBag.id = "18-38037-2";
-            ViewBag.username = name;
-         //   Console.WriteLine(name);
-            return View();
+            ViewBag.username = Email;
+            //   Console.WriteLine(name);
+
+            string query = "select * from Students where Email=@email";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@email", Email);
+
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    StudentsDashboard student = null;
+                    if (reader.Read())
+                    {
+                        student = new StudentsDashboard()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            Email = reader.GetString(reader.GetOrdinal("Email")),
+                            Phone = reader.GetInt32(reader.GetOrdinal("Phone")).ToString(),
+                            Dob = reader.GetDateTime(reader.GetOrdinal("Dob")).Date,
+                            Gender = reader.GetString(reader.GetOrdinal("Gender"))
+                        };
+                    }
+                    else
+                    {
+                        return RedirectToAction("Login", "Home");
+                    }
+
+                    return View(student);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return RedirectToAction("Login", "Home");
+            }
         }
+
+
 
         public ActionResult Students(int? id = null, int? result = null)
         {
