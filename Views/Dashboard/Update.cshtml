@@ -52,5 +52,5 @@
     <br />
 
     <button type="submit" class="btn btn-primary">Save</button>
-    <a class="btn btn-primary" href="@Url.Action("Details", "Dashboard", new { Id = @Model.Id })">Cancel</a>
+    <a class="btn btn-primary" href="@(Request.UrlReferrer?.ToString() ?? Url.Action("Index", "Home"))">Cancel</a>
 </form>

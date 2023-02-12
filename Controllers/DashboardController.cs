@@ -108,6 +108,7 @@ namespace WebApplication1.Controllers
                     }
                     else
                     {
+                        TempData[key: "Msg"] = "Login Required";
                         return RedirectToAction("Login", "Home");
                     }
 
@@ -117,6 +118,7 @@ namespace WebApplication1.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                TempData[key: "Msg"] = "Profile data fatching exception";
                 return RedirectToAction("Login", "Home");
             }
         }

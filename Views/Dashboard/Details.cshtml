@@ -50,6 +50,7 @@
                 </tbody>
             </table>
             <a href="@Url.Action("Update", new { id = @Model.Id })" class="btn btn-primary">Edit/Update</a>
+            <a class="btn btn-primary" href="@(Request.UrlReferrer?.ToString() ?? Url.Action("Index", "Home"))">Back</a>
         </div>
     </div>
 </div>
