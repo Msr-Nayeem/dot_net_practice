@@ -291,7 +291,7 @@ namespace WebApplication1.Controllers
                     else
                     {
                         // Update failed
-                        return RedirectToAction("Details", new { s.Id });
+                       return View(s);
                     }
                 }
             }
@@ -302,7 +302,7 @@ namespace WebApplication1.Controllers
 
                 // Return a view with an error message
                 ViewBag.ErrorMessage = "An error occurred while updating the student information. Please try again later.";
-                return RedirectToAction("Details", new { s.Id });
+                return View(s);
             }
         }
 

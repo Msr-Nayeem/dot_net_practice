@@ -7,29 +7,49 @@
 
 <h2>Update Information</h2>
 <form action="/Dashboard/Update" method="post">
-    Id : <input type="text" class="form-control" name="Id" Name" value="@Model.Id"  />
+    <div class="form-group">
+        <label for="Id">Id:</label>
+        <input type="text" class="form-control" id="Id" name="Id" placeholder="Enter Id" value="@Model.Id" />
+        <br />@Html.ValidationMessageFor(m => m.Id, "", new { @class = "text-danger" })
+    </div>
 
-    <br /><br />
-    Name : <input type="text" class="form-control" name="Name" placeholder="Enter Name" value="@Model.Name" />
+    <div class="form-group">
+        <label for="Name">Name:</label>
+        <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter Name" value="@(Model?.Name ?? "")" />
+        <br />@Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+    </div>
 
-    <br /><br />
+    <div class="form-group">
+        <label for="Email">Email:</label>
+        <input type="text" class="form-control" id="Email" name="Email" placeholder="Enter Your Email" value="@(Model?.Email ?? "")" />
+        <br /> @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+    </div>
 
-    Email: <input type="email" class="form-control" name="Email" placeholder="Email" value="@Model.Email" />
+    <div class="form-group">
+        <label for="Phone">Phone:</label>
+        <input type="text" class="form-control" id="Phone" name="Phone" placeholder="Enter Phone Number" value="@(Model?.Phone ?? "")" />
+        <br />@Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+    </div>
 
-    <br /><br />
+    <div class="form-group">
+        <label for="Dob">Date Of Birth:</label>
+        <input type="date" class="form-control" id="Dob" name="Dob" value="@(Model?.Dob.ToString("yyyy-MM-dd") ?? "")" />
+        @Html.ValidationMessageFor(m => m.Dob, "", new { @class = "text-danger" })
+    </div>
 
 
-    Phone no:  <input type="text" class="form-control" name="Phone" value="@Model.Phone" />
+    <div class="form-group">
+        <label for="Gender">Gender:</label>
+        <br />
+        <input type="radio" id="Gender-male" name="Gender" value="Male" @(Model?.Gender == "Male" ? "checked" : "") />
+        <label for="Gender-male">Male</label>
 
-    <br /><br />
-    DOB:  <input type="date" class="form-control" name="Dob" value="@Model.Dob.ToString("yyyy-MM-dd")" />
+        <input type="radio" id="gender-female" name="Gender" value="Female" @(Model?.Gender == "Female" ? "checked" : "") />
+        <label for="gender-female">Female</label>
+        @Html.ValidationMessageFor(m => m.Gender, "", new { @class = "text-danger" })
+    </div>
 
-    <br /><br />
-
-    Gender: <input type="radio" name="Gender" value="Male" @(Model.Gender == "Male" ? "checked" : "") />Male
-    <input type="radio" name="Gender" value="Female" @(Model.Gender == "Female" ? "checked" : "") />female<br />
-
-    <br /><br />
+    <br />
 
     <button type="submit" class="btn btn-primary">Save</button>
     <a class="btn btn-primary" href="@Url.Action("Details", "Dashboard", new { Id = @Model.Id })">Cancel</a>
