@@ -122,9 +122,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="CustomValidation\Min18Year.cs" />
+    <Compile Include="CustomValidation\Min18Years.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\RegModel.cs" />
     <Compile Include="Models\StudentsDashboard.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\SignUp.cs" />
@@ -178,6 +181,7 @@
     <Content Include="Views\Dashboard\Students.cshtml" />
     <Content Include="Views\Dashboard\Details.cshtml" />
     <Content Include="Views\Dashboard\Update.cshtml" />
+    <Content Include="Views\Home\Reg.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

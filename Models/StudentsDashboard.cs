@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using WebApplication1.CustomValidation;
 
 namespace WebApplication1.Models
 {
@@ -38,8 +39,10 @@ namespace WebApplication1.Models
         public String Phone { get; set; }
 
         [Required(ErrorMessage = "Enter Date of birth")]
+        [Min18Year]
         public DateTime Dob { get; set; }
-        
+
+ 
 
     }
 }

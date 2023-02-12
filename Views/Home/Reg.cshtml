@@ -1,0 +1,87 @@
+﻿@model WebApplication1.Models.RegModel
+@{
+    ViewBag.Title = "Reg";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    bool CheckHobby(string hobby)
+    {
+        if (Model != null && Model.Hobbies != null)
+        {
+            foreach (var item in Model.Hobbies)
+            {
+                if (hobby.Equals(item)) return true;
+            }
+        }
+        return false;
+    }
+}
+
+@if (Model != null && Model.Hobbies != null && Model.Dob !=null)
+{
+    <h3>Name: @Model.Name</h3>
+    <h3>Id: @Model.Id</h3>
+    <h3>DAteof birth: @Model.Dob.ToString("dd-MMM-yyyy")</h3>
+    <h3>profession: @Model.Profession</h3>
+    <h3>Hobbies :</h3>
+    if (Model.Hobbies != null)
+    {
+        foreach (var hobby in Model.Hobbies)
+        {
+            <li>@hobby</li>
+        }
+    }
+
+
+}
+<hr />
+<h2>Reg</h2>
+<form action="/home/Reg" method="post">
+
+    <div class="form-group">
+        <label for="id">Id:</label>
+        <input type="text" class="form-control" id="id" name="Id" placeholder="Enter Id" value="@(Model?.Id ?? "")" />
+        <br />@Html.ValidationMessageFor(m => m.Id, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" name="Name" placeholder="Enter Name" value="@(Model?.Name ?? "")" />
+        <br />@Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label for="dob">DOB:</label>
+        <input type="date" class="form-control" id="dob" name="Dob" value="@(Model?.Dob.ToString("yyyy-MM-dd") ?? "")" />
+        <br />@Html.ValidationMessageFor(m => m.Dob, "", new { @class = "text-danger" })
+    </div>
+
+
+    <div class="form-group">
+        <label for="gender">Gender:</label>
+        <br />
+        <input type="radio" id="gender-male" name="Gender" value="Male" @(Model?.Gender == "Male" ? "checked" : "") />
+        <label for="gender-male">Male</label>
+        <input type="radio" id="gender-female" name="Gender" value="Female" @(Model?.Gender == "Female" ? "checked" : "") />
+        <label for="gender-female">Female</label>
+        <br />@Html.ValidationMessageFor(m => m.Gender, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label for="profession">Profession:</label>
+        <select class="form-control" id="profession" name="Profession">
+            <option value="Teacher" @(Model?.Profession == "Teacher" ? "selected" : "")>Teacher</option>
+            <option value="Student" @(Model?.Profession == "Student" ? "selected" : "")>Student</option>
+        </select>
+        <br />@Html.ValidationMessageFor(m => m.Profession, "", new { @class = "text-danger" })
+    </div>
+
+    Hobbies:
+    <input type="checkbox" @(CheckHobby("Games") ? "checked" : "") value="Games" name="Hobbies[]" /> Games
+    <input type="checkbox" @(CheckHobby("Sports") ? "checked" : "") value="Sports" name="Hobbies[]" /> Sports
+    <input type="checkbox" @(CheckHobby("Travelling") ? "checked" : "") value="Travelling" name="Hobbies[]" /> Travelling
+    <input type="checkbox" @(CheckHobby("Music") ? "checked" : "") value="Music" name="Hobbies[]" /> Music
+    @Html.ValidationMessageFor(m => m.Hobbies, "", new { @class = "text-danger" })
+    <br />
+    <button class="btn btn-primary">Submit</button>
+</form>
+

@@ -193,10 +193,37 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                return View();
+                return View(s);
             }
            
 
+        }
+
+        [HttpGet]
+        public ActionResult Reg()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Reg(RegModel reg)
+        {
+            ViewBag.name = reg.Name;
+
+            if (ModelState.IsValid)
+            {
+                // return RedirectToAction("Login");
+                return View(reg);
+            }
+            //List<string> hobbies = reg.Hobbies;
+            //foreach (string hobby in hobbies)
+            //{
+            //    Console.WriteLine(hobby);
+            //}
+            else
+            {
+                return View(reg);
+            }
+            
         }
     }
 }
