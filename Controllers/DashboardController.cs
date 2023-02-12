@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -13,11 +14,7 @@ namespace WebApplication1.Controllers
 {
     public class DashboardController : Controller
     {
-
-
         // GET: Dashboard
-
-        string connString = @"server=DESKTOP-AVD9M43;Database=Student;Integrated Security=true";
 
         public class Student
         {
@@ -82,45 +79,35 @@ namespace WebApplication1.Controllers
             ViewBag.username = Email;
             //   Console.WriteLine(name);
 
+
             string query = "select * from Students where Email=@email";
-
-            try
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            SqlConnection connection = databaseConnection.GetConnection();
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@email", Email);
+            connection.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            StudentsDashboard student = null;
+            if (reader.Read())
             {
-                using (SqlConnection conn = new SqlConnection(connString))
+                student = new StudentsDashboard()
                 {
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@email", Email);
-
-                    conn.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    StudentsDashboard student = null;
-                    if (reader.Read())
-                    {
-                        student = new StudentsDashboard()
-                        {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Name = reader.GetString(reader.GetOrdinal("Name")),
-                            Email = reader.GetString(reader.GetOrdinal("Email")),
-                            Phone = reader.GetInt32(reader.GetOrdinal("Phone")).ToString(),
-                            Dob = reader.GetDateTime(reader.GetOrdinal("Dob")).Date,
-                            Gender = reader.GetString(reader.GetOrdinal("Gender"))
-                        };
-                    }
-                    else
-                    {
-                        TempData[key: "Msg"] = "Login Required";
-                        return RedirectToAction("Login", "Home");
-                    }
-
-                    return View(student);
-                }
+                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                    Name = reader.GetString(reader.GetOrdinal("Name")),
+                    Email = reader.GetString(reader.GetOrdinal("Email")),
+                    Phone = reader.GetInt32(reader.GetOrdinal("Phone")).ToString(),
+                    Dob = reader.GetDateTime(reader.GetOrdinal("Dob")).Date,
+                    Gender = reader.GetString(reader.GetOrdinal("Gender"))
+                };
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine(ex.Message);
-                TempData[key: "Msg"] = "Profile data fatching exception";
+                TempData[key: "Msg"] = "Login Required";
                 return RedirectToAction("Login", "Home");
             }
+
+            return View(student);
+
         }
 
 
@@ -139,92 +126,76 @@ namespace WebApplication1.Controllers
             }
            
             string query = "select * from Students";
-            try
+
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            SqlConnection connection = databaseConnection.GetConnection();
+            SqlCommand cmd = new SqlCommand(query, connection);
+            connection.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            List<StudentsDashboard> list = new List<StudentsDashboard>();
+
+            while (reader.Read())
             {
-                using (SqlConnection conn = new SqlConnection(connString))
+                StudentsDashboard s = new StudentsDashboard()
                 {
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    conn.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
 
-                List<StudentsDashboard> list = new List<StudentsDashboard>();
+                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                    Name = reader.GetString(reader.GetOrdinal("Name")),
+                    Email = reader.GetString(reader.GetOrdinal("Email")),
+                    Phone = reader.GetInt32(reader.GetOrdinal("Phone")).ToString(),
+                    Dob = reader.GetDateTime(reader.GetOrdinal("Dob")).Date,
+                    Gender = reader.GetString(reader.GetOrdinal("Gender"))
 
-                    while (reader.Read())
-                    {
-                        StudentsDashboard s = new StudentsDashboard()
-                        {
-
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Name = reader.GetString(reader.GetOrdinal("Name")),
-                            Email = reader.GetString(reader.GetOrdinal("Email")),
-                            Phone = reader.GetInt32(reader.GetOrdinal("Phone")).ToString(),
-                            Dob = reader.GetDateTime(reader.GetOrdinal("Dob")).Date,
-                            Gender = reader.GetString(reader.GetOrdinal("Gender"))
-                            
-                    };
-                    list.Add(s);    
-                    }
-                    conn.Close();
-                    return View(list);
-                }
+                };
+                list.Add(s);
             }
-            catch (SqlException ex)
-            {
-                TempData[key: "loginError"] = ex.Message;
-                return View();
-            }
+            connection.Close();
+            return View(list);
 
-          
         }
 
         public ActionResult Details(int Id, int? result = null)
         {
             string query = "select * from Students where Id=@Id";
 
-            try
+
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            SqlConnection connection = databaseConnection.GetConnection();
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@Id", Id);
+            connection.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            StudentsDashboard student = null;
+
+            if (reader.Read())
             {
-                using (SqlConnection conn = new SqlConnection(connString))
+                student = new StudentsDashboard()
                 {
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", Id);
-                    conn.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    StudentsDashboard student = null;
-
-                    if (reader.Read())
-                    {
-                        student = new StudentsDashboard()
-                        {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Name = reader.GetString(reader.GetOrdinal("Name")),
-                            Email = reader.GetString(reader.GetOrdinal("Email")),
-                            Phone = reader.GetInt32(reader.GetOrdinal("Phone")).ToString(),
-                            Dob = reader.GetDateTime(reader.GetOrdinal("Dob")).Date,
-                            Gender = reader.GetString(reader.GetOrdinal("Gender"))
-                        };
-                    }
-                    conn.Close();
-                    if(result == 1)
-                    {
-                        TempData[key: "result"] = "Information Updated Successfully";
-                    }
-                    else if(result == 0)
-                    {
-                        TempData[key: "result"] = "Failed ! try again.";
-                    }
-                    else
-                    {
-                        TempData[key: "result"] = null;
-                    }
-                    return View(student);
-                }
+                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                    Name = reader.GetString(reader.GetOrdinal("Name")),
+                    Email = reader.GetString(reader.GetOrdinal("Email")),
+                    Phone = reader.GetInt32(reader.GetOrdinal("Phone")).ToString(),
+                    Dob = reader.GetDateTime(reader.GetOrdinal("Dob")).Date,
+                    Gender = reader.GetString(reader.GetOrdinal("Gender"))
+                };
             }
-            catch (Exception ex)
+            connection.Close();
+            if (result == 1)
             {
-                Console.WriteLine(ex.Message);
-                return View();
+                TempData[key: "result"] = "Information Updated Successfully";
             }
+            else if (result == 0)
+            {
+                TempData[key: "result"] = "Failed ! try again.";
+            }
+            else
+            {
+                TempData[key: "result"] = null;
+            }
+            return View(student);
+
 
         }
 
@@ -233,30 +204,22 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            string deleteQuery = "DELETE FROM Students WHERE Id=@Id";
-            try
+            string query = "DELETE FROM Students WHERE Id=@Id";
+
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            SqlConnection connection = databaseConnection.GetConnection();
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@Id", id);
+            connection.Open();
+            int rowsAffected = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (rowsAffected > 0)
             {
-                using (SqlConnection conn = new SqlConnection(connString))
-                {
-                    SqlCommand cmd = new SqlCommand(deleteQuery, conn);
-                    cmd.Parameters.AddWithValue("@Id", id);
-                    conn.Open();
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    conn.Close();
-                    if (rowsAffected > 0)
-                    {
-                        return RedirectToAction("Students", new { Id = id, result = 1 });
-                    }
-                    else
-                    {
-                        return RedirectToAction("Students", new { Id = id, result = 0 });
-                    }
-                   
-                }
+                return RedirectToAction("Students", new { Id = id, result = 1 });
             }
-            catch (Exception)
+            else
             {
-                return RedirectToAction("Students", new { Id = id });
+                return RedirectToAction("Students", new { Id = id, result = 0 });
             }
 
             // ViewBag.id = id;
@@ -268,84 +231,60 @@ namespace WebApplication1.Controllers
         {
             string query = "select * from Students where Id=@Id";
 
-            try
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            SqlConnection connection = databaseConnection.GetConnection();
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@Id", id);
+            connection.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            StudentsDashboard student = null;
+
+            if (reader.Read())
             {
-                using (SqlConnection conn = new SqlConnection(connString))
+                student = new StudentsDashboard()
                 {
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", id);
-                    conn.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    StudentsDashboard student = null;
-
-                    if (reader.Read())
-                    {
-                        student = new StudentsDashboard()
-                        {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Name = reader.GetString(reader.GetOrdinal("Name")),
-                            Email = reader.GetString(reader.GetOrdinal("Email")),
-                            Phone = reader.GetInt32(reader.GetOrdinal("Phone")).ToString(),
-                            Dob = reader.GetDateTime(reader.GetOrdinal("Dob")),
-                            Gender = reader.GetString(reader.GetOrdinal("Gender"))
-                        };
-                    }
-                    conn.Close();
-                    return View(student);
-                }
+                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                    Name = reader.GetString(reader.GetOrdinal("Name")),
+                    Email = reader.GetString(reader.GetOrdinal("Email")),
+                    Phone = reader.GetInt32(reader.GetOrdinal("Phone")).ToString(),
+                    Dob = reader.GetDateTime(reader.GetOrdinal("Dob")),
+                    Gender = reader.GetString(reader.GetOrdinal("Gender"))
+                };
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return View();
-            }
-
+            connection.Close();
+            return View(student);
         }
 
         [HttpPost]
         public ActionResult Update(StudentsDashboard s)
         {
-            try
+            string query = "UPDATE Students SET Name=@Name, Email=@Email, Phone=@Phone, Dob=@Dob, Gender=@Gender WHERE Id=@Id";
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            SqlConnection connection = databaseConnection.GetConnection();
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@Id", s.Id);
+            cmd.Parameters.AddWithValue("@Name", s.Name);
+            cmd.Parameters.AddWithValue("@Email", s.Email);
+            cmd.Parameters.AddWithValue("@Phone", s.Phone);
+            cmd.Parameters.AddWithValue("@Dob", s.Dob);
+            cmd.Parameters.AddWithValue("@Gender", s.Gender);
+            connection.Open();
+            int rowsAffected = cmd.ExecuteNonQuery();
+            connection.Close();
+
+            if (rowsAffected > 0)
             {
-                string query = "UPDATE Students SET Name=@Name, Email=@Email, Phone=@Phone, Dob=@Dob, Gender=@Gender WHERE Id=@Id";
-
-                using (SqlConnection conn = new SqlConnection(connString))
-                {
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", s.Id);
-                    cmd.Parameters.AddWithValue("@Name", s.Name);
-                    cmd.Parameters.AddWithValue("@Email", s.Email);
-                    cmd.Parameters.AddWithValue("@Phone", s.Phone);
-                    cmd.Parameters.AddWithValue("@Dob", s.Dob);
-                    cmd.Parameters.AddWithValue("@Gender", s.Gender);
-
-                    conn.Open();
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    conn.Close();
-
-                    if (rowsAffected > 0)
-                    {
-                        // Update was successful
-                        return RedirectToAction("Details", new { s.Id, result = 1 });
-                    }
-                    else
-                    {
-                        // Update failed
-                       return View(s);
-                    }
-                }
+                // Update was successful
+                return RedirectToAction("Details", new { s.Id, result = 1 });
             }
-            catch (Exception ex)
+            else
             {
-                // Log the error to a log file or database for troubleshooting
-                Console.WriteLine("Error updating student information: " + ex.Message);
-
-                // Return a view with an error message
-                ViewBag.ErrorMessage = "An error occurred while updating the student information. Please try again later.";
+                // Update failed
                 return View(s);
             }
-        }
+
+        } 
 
         public ActionResult Logout()
         {

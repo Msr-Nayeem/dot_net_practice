@@ -24,74 +24,24 @@ namespace WebApplication1.Controllers
         public ActionResult Login(string Email, string Password)
         {
 
-            //string connString = @"server=DESKTOP-AVD9M43;Database=Student;Integrated Security=true";
-            //SqlConnection conn = new SqlConnection(connString);
-            //string query = "select * from Students where email = '" + Email + "' and password = '" + Password + "' ";
-            //SqlCommand cmd = new SqlCommand(query, conn);
-            //conn.Open();
-            //SqlDataReader reader = cmd.ExecuteReader();
-            //if (reader.HasRows)
-            //{
-            //    return RedirectToAction("myProfile", "Dashboard");
-            //}
-            //else
-            //{
-            //    TempData[key: "loginError"] = "Email/Password not matched";
-            //    return View();
-            //}
-            //string connString = @"server=DESKTOP-AVD9M43;Database=Student;Integrated Security=true";
-            //try
-            //{
-            //    SqlConnection conn = new SqlConnection(connString);
-            //    string query = "select * from Students where email = '" + Email + "' and password = '" + Password + "' ";
-            //    SqlCommand cmd = new SqlCommand(query, conn);
-            //    conn.Open();
-            //    SqlDataReader reader = cmd.ExecuteReader();
-            //    if (reader.HasRows)
-            //    {
-            //        return RedirectToAction("myProfile", "Dashboard");
-            //    }
-            //    else
-            //    {
-            //        TempData[key: "loginError"] = "Email/Password not matched";
-            //        return View();
-            //    }
-            //}
-            //catch (SqlException ex)
-            //{
-            //    // Log the exception details
-            //    Console.WriteLine("Error: " + ex.Message);
-            //    // Add a error message to be displayed to the user
-            //    TempData[key: "loginError"] = "The database server is currently unavailable. Please try again later.";
-            //    return View();
-            //}
-            string connString = @"server=DESKTOP-AVD9M43;Database=Student;Integrated Security=true";
             string query = "select * from Students where Email = '" + Email + "' and password = '" + Password + "' ";
-            try
+
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            SqlConnection connection = databaseConnection.GetConnection();
+            SqlCommand cmd = new SqlCommand(query, connection);
+            connection.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.HasRows)
             {
-                using (SqlConnection conn = new SqlConnection(connString))
-                {
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    conn.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                        if (reader.HasRows)
-                        {
-                        Session["email"] = Email;
-                        HttpCookie cookie = new HttpCookie("email", Email);
-                        cookie.Expires = DateTime.Now.AddDays(7);
-                        Response.Cookies.Add(cookie);
-                        return RedirectToAction("myProfile", "Dashboard");
-                        }
-                        else
-                        {
-                            TempData[key: "loginError"] = "Email/Password not matched";
-                            return View();
-                        }
-                }
+                Session["email"] = Email;
+                HttpCookie cookie = new HttpCookie("email", Email);
+                cookie.Expires = DateTime.Now.AddDays(7);
+                Response.Cookies.Add(cookie);
+                return RedirectToAction("myProfile", "Dashboard");
             }
-            catch (SqlException ex)
+            else
             {
-                TempData[key: "loginError"] = ex.Message;
+                TempData[key: "loginError"] = "Email/Password not matched";
                 return View();
             }
 
@@ -170,15 +120,12 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                string connString = @"server=DESKTOP-AVD9M43;Database=Student;Integrated Security=true";
-                SqlConnection conn = new SqlConnection(connString);
-
-                //tring query = "INSERT INTO Students (name, email, password) VALUES ('Shahidur', 'shahidur@gmail.com', '123f')";
                 String query = "INSERT INTO Students (Name, Email, Password, Phone, Gender, Dob) VALUES ('" + s.Name + "', '" + s.Email + "', '" + s.Password + "', '" + s.Phone + "', '" + s.Gender + "', '" + s.Dob + "')";
+                DatabaseConnection databaseConnection = new DatabaseConnection();
+                SqlConnection connection = databaseConnection.GetConnection();
+                SqlCommand cmd = new SqlCommand(query, connection);
+                connection.Open();
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-
-                conn.Open();
                 var effectedRow = cmd.ExecuteNonQuery();
                 if (effectedRow > 0)
                 {
@@ -188,7 +135,7 @@ namespace WebApplication1.Controllers
                 {
                     TempData["msg"] = "failed";
                 }
-                conn.Close();
+                connection.Close();
                 return View();
             }
             else
