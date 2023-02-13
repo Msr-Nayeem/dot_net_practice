@@ -37,7 +37,18 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - msr@nayeem</p>
+            <div>
+                Copyright @@ @DateTime.Now.Year
+                @if (Session["email"] != null)
+                {
+                    @Session["email"]
+                }
+                else
+                {
+                    <h5>Login Required</h5>
+                }
+
+            </div>
         </footer>
     </div>
 

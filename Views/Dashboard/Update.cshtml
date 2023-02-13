@@ -24,7 +24,7 @@
 
     <div class="form-group">
         <label for="Phone">Phone:</label>
-        <input type="text" class="form-control" id="Phone" name="Phone" placeholder="Enter Phone Number" value="@(Model?.Phone ?? "")" />
+        <input type="text" class="form-control" id="Phone" name="Phone" placeholder="Enter Phone Number" value="@(Model?.Phone == null ? "" : "0" + Model.Phone)" />
         <br />@Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
     </div>
 

@@ -41,21 +41,18 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                TempData[key: "loginError"] = "Email/Password not matched";
+                TempData[key: "Msg"] = "Email/Password not matched";
                 return View();
             }
 
         }
         public ActionResult Login()
         {
-            ViewBag.Message = "Your login page.";
 
             return View();
         }
         public ActionResult SignUp()
         {
-            ViewBag.Message = "Your sign up page.";
-
             return View();
         }
        public ActionResult SignUpSubmitted(SignUp datas)
@@ -110,8 +107,6 @@ namespace WebApplication1.Controllers
 
         public ActionResult Registration()
         {
-            ViewBag.Message = "Registration page.";
-
             return View();
         }
         [HttpPost]
