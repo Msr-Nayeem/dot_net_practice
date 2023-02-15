@@ -1,23 +1,32 @@
-﻿
+﻿@model WebApplication1.Models.Login
 @{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Login</h2>
-@if (TempData[key: "Msg"] != null)
+@if (TempData["msg"] != null)
 {
     <div class="alert alert-info" role="alert">
-        <span>@TempData[key: "Msg"]</span>
+        <span>@TempData["msg"]</span><br />
+
+
     </div>
 }
 
-<form action="/home/login" method="post">
+<form action="/home/login" method="post" autocomplete="on">
 
-    Email: <input type="email" class="form-control" name="Email" placeholder="Email" />
+    Email: <input type="email" class="form-control" name="Email" placeholder="Enter Your Email" />
+
+    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
     <br />
-    Password: <input type="text" class="form-control" name="Password" placeholder="Password" />
+
+    Password: <input type="text" class="form-control" name="Password" placeholder="Enter Password" />
     <br />
+    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+  
+   <input type="checkbox"  value="Remember" name="Remember" /> Remember me <br />
+
     <button type="submit" class="btn btn-primary">Log In</button>
 </form>
 

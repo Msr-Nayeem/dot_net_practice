@@ -9,6 +9,10 @@ using System.Data.SqlClient;
 using System.Web.Helpers;
 using System.Xml.Linq;
 using System.Data;
+using WebApplication1.Entity;
+using Login = WebApplication1.Models.Login;
+using Student = WebApplication1.Entity.Student;
+using System.Runtime.InteropServices;
 
 namespace WebApplication1.Controllers
 {
@@ -20,37 +24,44 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Login(string Email, string Password)
-        {
-
-            string query = "select * from Students where Email = '" + Email + "' and password = '" + Password + "' ";
-
-            DatabaseConnection databaseConnection = new DatabaseConnection();
-            SqlConnection connection = databaseConnection.GetConnection();
-            SqlCommand cmd = new SqlCommand(query, connection);
-            connection.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
-            if (reader.HasRows)
-            {
-                Session["email"] = Email;
-                HttpCookie cookie = new HttpCookie("email", Email);
-                cookie.Expires = DateTime.Now.AddDays(7);
-                Response.Cookies.Add(cookie);
-                return RedirectToAction("myProfile", "Dashboard");
-            }
-            else
-            {
-                TempData[key: "Msg"] = "Email/Password not matched";
-                return View();
-            }
-
-        }
+        [HttpGet]
         public ActionResult Login()
         {
 
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Login(Login info)
+        {
+            if (ModelState.IsValid)
+            {
+               
+                var submit = new StudentEntities1();
+                var match = (from d in submit.Students where d.Email== info.Email && d.Password == info.Password select d).SingleOrDefault();
+
+                if (match != null)
+                {
+                    Session["email"] = info.Email;
+                    HttpCookie cookie = new HttpCookie("email", info.Email);
+                    cookie.Expires = DateTime.Now.AddDays(7);
+                    Response.Cookies.Add(cookie);
+
+                    return RedirectToAction("MyProfile", "Dashboard");
+                }
+                else
+                {
+                    TempData[key: "Msg"] = "Email/Password not matched";
+                    return View();
+                }
+            }
+            else
+            {
+                return View(info);
+            }
+                
+        }
+   
         public ActionResult SignUp()
         {
             return View();
@@ -111,31 +122,32 @@ namespace WebApplication1.Controllers
         }
         [HttpPost]
        // public ActionResult Registration(string Namee,string Emaill,string Passwordd)
-        public ActionResult Registration(StudentsDashboard s)
+        public ActionResult Registration(Student info)
         {
             if (ModelState.IsValid)
             {
-                String query = "INSERT INTO Students (Name, Email, Password, Phone, Gender, Dob) VALUES ('" + s.Name + "', '" + s.Email + "', '" + s.Password + "', '" + s.Phone + "', '" + s.Gender + "', '" + s.Dob + "')";
-                DatabaseConnection databaseConnection = new DatabaseConnection();
-                SqlConnection connection = databaseConnection.GetConnection();
-                SqlCommand cmd = new SqlCommand(query, connection);
-                connection.Open();
-
-                var effectedRow = cmd.ExecuteNonQuery();
-                if (effectedRow > 0)
+                var db = new StudentEntities1();
+                db.Students.Add(info);
+                
+                int rowsAffected = db.SaveChanges();
+                if (rowsAffected > 0)
                 {
+                    // the operation was successful
                     TempData["msg"] = "Inserted";
+                    return View();
                 }
                 else
                 {
+                    // the operation failed
+                    // handle the error here, for example by displaying an error message to the user
                     TempData["msg"] = "failed";
+                    return View(info);
                 }
-                connection.Close();
-                return View();
+               
             }
             else
             {
-                return View(s);
+                return View(info);
             }
            
 

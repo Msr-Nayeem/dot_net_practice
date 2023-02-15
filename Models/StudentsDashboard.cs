@@ -42,7 +42,5 @@ namespace WebApplication1.Models
         [Min18Year]
         public DateTime Dob { get; set; }
 
- 
-
     }
 }

@@ -1,6 +1,4 @@
-﻿@model WebApplication1.Models.StudentsDashboard
-
-@{
+﻿@{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/loggedLayout.cshtml";
 }
@@ -33,7 +31,7 @@
                     </tr>
                     <tr>
                         <td>Phone</td>
-                        <td>@(string.Format("0{0}", Model.Phone))</td>
+                        <td>@Model.Phone</td>
                     </tr>
                     <tr>
                         <td>Dob</td>

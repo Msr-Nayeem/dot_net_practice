@@ -28,10 +28,13 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                
+                <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="/dashboard/myprofile">Profile</a>
                     </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="/dashboard/Students">Students</a>
                     </li>
@@ -49,7 +52,7 @@
         @RenderBody()
     </div>
     <hr />
-    <div>
+    <div class="text-center">
         Copyright @@ @DateTime.Now.Year
         @if (Session["email"] != null)
         {

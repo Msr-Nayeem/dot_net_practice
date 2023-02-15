@@ -1,4 +1,4 @@
-﻿@model List<WebApplication1.Models.StudentsDashboard>
+﻿@model List<WebApplication1.Entity.Student>
 @{
     ViewBag.Title = "Students";
     Layout = "~/Views/Shared/loggedLayout.cshtml";
@@ -50,15 +50,14 @@
         <td>Gender</td>
         <td>Action</td>
     </tr>
-
-    @foreach (var items in Model)
+    @foreach (var item in Model)
     {
         <tr>
-            @* <td>@items.Id</td> *@
-            <td><a href="@Url.Action("Details", "Dashboard", new { Id = items.Id })">@items.Name</a></td>
-            <td>@items.Email</td>
-            <td>@items.Gender</td>
-            <td><a href="@Url.Action("Delete", "Dashboard", new { id = items.Id })" class="btn btn-danger"><i class="fas fa-trash"></i>  Delete</a></td>
+            <td><a href="@Url.Action("Details", "Dashboard", new { id = item.Id })">@item.Name</a></td>
+            <td>@item.Email</td>
+            <td>@item.Gender</td>
+            <td><a href="@Url.Action("Delete", "Dashboard", new { id = item.Id })" class="btn btn-danger"><i class="fas fa-trash"></i>  Delete</a></td>
+           
         </tr>
     }
 

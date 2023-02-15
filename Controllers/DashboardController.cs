@@ -9,6 +9,9 @@ using System.Web.Mvc;
 using WebApplication1.Models;
 using static WebApplication1.Controllers.DashboardController;
 using System.Diagnostics;
+using WebApplication1.CustomValidation;
+using WebApplication1.Entity;
+using System.Data.Entity.Validation;
 
 namespace WebApplication1.Controllers
 {
@@ -36,7 +39,7 @@ namespace WebApplication1.Controllers
 
             //list
             List<Student> multipleStudent = new List<Student>();  
-            for(int i = 0;i<10; i++)
+            for(int i = 0;i<3; i++)
             {
                 string name="student"+(i+1);
                 int id = i+1;
@@ -50,7 +53,7 @@ namespace WebApplication1.Controllers
             ViewBag.multipleList = multipleStudent;
 
             //Array
-            Student[] ss = new Student[10];
+            Student[] ss = new Student[3];
             for(int i = 0;i<ss.Length; i++)
             {
                 ss[i] = new Student();
@@ -64,7 +67,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-
+        [AuthFilter]
         public ActionResult MyProfile()
         {
             @ViewBag.Title = "My Profile";
@@ -77,15 +80,18 @@ namespace WebApplication1.Controllers
             {
                 string Email = nameCookie.Value.Split('=')[0];
                 string query = "select * from Students where Email='" + Email + "' ";
- 
-                StudentsDashboard student = GetInformation(query);
-                if (student != null)
+
+                var db = new StudentEntities1();
+                
+                var data = (from d in db.Students where d.Email== Email select d).SingleOrDefault();
+                
+                if (data != null)
                 {
-                    return View(student);
+                    return View(data);
                 }
                 else
                 {
-                    TempData[key: "Msg"] = "error";
+                    TempData[key: "Msg"] = "Connection error, can't login";
                     return RedirectToAction("Login", "Home");
                 }
                 
@@ -98,8 +104,10 @@ namespace WebApplication1.Controllers
             
         }
 
+        [AuthFilter]
         public ActionResult Students(int? id = null, int? result = null)
         {
+            
             @ViewBag.Title = "Students";
             if (id != null && result == 1)
             {
@@ -110,51 +118,22 @@ namespace WebApplication1.Controllers
             {
                 TempData[key: "result"] = "Failed to delete";
             }
-           
-            string query = "select * from Students";
 
-
-            List<StudentsDashboard> list = new List<StudentsDashboard>();
-
-            DB db = new DB(query);
-            try
+            var db = new StudentEntities1();
+            var students = db.Students.ToList();
+            if(students != null)
             {
-                using (SqlDataReader reader = db.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        StudentsDashboard s = new StudentsDashboard()
-                        {
-
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Name = reader.GetString(reader.GetOrdinal("Name")),
-                            Email = reader.GetString(reader.GetOrdinal("Email")),
-                            Phone = reader.GetInt32(reader.GetOrdinal("Phone")).ToString(),
-                            Dob = reader.GetDateTime(reader.GetOrdinal("Dob")).Date,
-                            Gender = reader.GetString(reader.GetOrdinal("Gender"))
-
-                        };
-                        list.Add(s);
-
-                    }
-                    return View(list);
-                }
+                return View(students);
             }
-            catch (Exception ex)
+            else
             {
-                // Handle exception
-                TempData[key: "Msg"] = ex.Message;
                 return RedirectToAction("Login", "Home");
             }
-            finally
-            {
-                db.Dispose();
-            } 
-
+            
         }
 
        
-        public ActionResult Details(int Id, int? result = null)
+        public ActionResult Details(int id, int? result = null)
         {
             if (result == 1)
             {
@@ -168,17 +147,18 @@ namespace WebApplication1.Controllers
             {
                 TempData[key: "result"] = null;
             }
-            string query = "select * from Students where Id='"+Id+"'";
-           
-            StudentsDashboard student = GetInformation(query);
-            if (student != null)
+            var db = new StudentEntities1();
+
+            var data = (from d in db.Students where d.Id == id select d).SingleOrDefault();
+
+            if (data != null)
             {
-                return View(student);
+                return View(data);
             }
             else
             {
-                TempData[key: "Msg"] = "Error";
-                return RedirectToAction("Login", "Home");
+                TempData[key: "Msg"] = "Connection error, can't login";
+                return RedirectToAction("Students");
             }
         }
 
@@ -187,15 +167,12 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            string query = "DELETE FROM Students WHERE Id=@Id";
+            var db = new StudentEntities1();
 
-            DatabaseConnection databaseConnection = new DatabaseConnection();
-            SqlConnection connection = databaseConnection.GetConnection();
-            SqlCommand cmd = new SqlCommand(query, connection);
-            cmd.Parameters.AddWithValue("@Id", id);
-            connection.Open();
-            int rowsAffected = cmd.ExecuteNonQuery();
-            connection.Close();
+            var data = (from d in db.Students where d.Id == id select d).SingleOrDefault();
+            db.Students.Remove(data);
+            int rowsAffected =  db.SaveChanges();
+
             if (rowsAffected > 0)
             {
                 return RedirectToAction("Students", new { Id = id, result = 1 });
@@ -212,57 +189,70 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public ActionResult Update(int Id)
         {
-            string query = "select * from Students where Id='" + Id + "'";
+            var db = new StudentEntities1();
+            var data = (from d in db.Students where d.Id == Id select d).SingleOrDefault();
 
-            StudentsDashboard student = GetInformation(query);
-            if (student != null)
+            if (data != null)
             {
-                return View(student);
+                return View(data);
             }
             else
             {
-                TempData[key: "Msg"] = "Error";
-                return RedirectToAction("Login", "Home");
+                TempData[key: "Msg"] = "Connection error, can't login";
+                return RedirectToAction("Students");
             }
         }
 
         [HttpPost]
-        public ActionResult Update(StudentsDashboard s)
+        public ActionResult Update(WebApplication1.Entity.Student model)
         {
-            if (ModelState.IsValid)
-            {
-                string query = "UPDATE Students SET Name=@Name, Email=@Email, Phone=@Phone, Dob=@Dob, Gender=@Gender WHERE Id=@Id";
-                DatabaseConnection databaseConnection = new DatabaseConnection();
-                SqlConnection connection = databaseConnection.GetConnection();
-                SqlCommand cmd = new SqlCommand(query, connection);
-                cmd.Parameters.AddWithValue("@Id", s.Id);
-                cmd.Parameters.AddWithValue("@Name", s.Name);
-                cmd.Parameters.AddWithValue("@Email", s.Email);
-                cmd.Parameters.AddWithValue("@Phone", s.Phone);
-                cmd.Parameters.AddWithValue("@Dob", s.Dob);
-                cmd.Parameters.AddWithValue("@Gender", s.Gender);
-                connection.Open();
-                int rowsAffected = cmd.ExecuteNonQuery();
-                connection.Close();
+            var db = new StudentEntities1();
 
-                if (rowsAffected > 0)
+            try
+            {
+                var data = db.Students.Single(d => d.Id == model.Id);
+               data.Name= model.Name;
+                data.Email= model.Email;
+                data.Phone  = model.Phone;
+                data.Dob = model.Dob;
+                data.Gender= model.Gender;
+               
+                int numRows = db.SaveChanges();
+                if (numRows >0)
                 {
-                    // Update was successful
-                    return RedirectToAction("Details", new { s.Id, result = 1 });
+                    return RedirectToAction("Details", new { model.Id, result = 1 });
                 }
                 else
                 {
-                    // Update failed
-                    return View(s);
+                    TempData[key: "Msg"] = "failed to update";
+
+                    return View(model);
                 }
+                // Update was successful
+               
             }
-            else
+            catch (DbEntityValidationException ex)
             {
-                return View(s);
+                // Handle validation errors
+                var errorMessages = ex.EntityValidationErrors
+                    .SelectMany(x => x.ValidationErrors)
+                    .Select(x => x.ErrorMessage);
+
+                var fullErrorMessage = string.Join("; ", errorMessages);
+                var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
+
+                TempData[key: "Msg"] = exceptionMessage;
+
+                return View(model);
             }
+            catch (Exception ex)
+            {
+                // Handle other exceptions
+                TempData[key: "Msg"] = ex.Message;
 
-        } 
-
+                return View(model);
+            }
+        }
         public ActionResult Logout()
         {
             //session clear

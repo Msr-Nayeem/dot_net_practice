@@ -314,3 +314,7 @@ D:\dot_net_practice\obj\Debug\WebApplication1.csproj.CoreCompileInputs.cache
 D:\dot_net_practice\obj\Debug\WebApplication1.csproj.CopyComplete
 D:\dot_net_practice\obj\Debug\WebApplication1.dll
 D:\dot_net_practice\obj\Debug\WebApplication1.pdb
+D:\dot_net_practice\bin\EntityFramework.dll
+D:\dot_net_practice\bin\EntityFramework.SqlServer.dll
+D:\dot_net_practice\bin\EntityFramework.xml
+D:\dot_net_practice\bin\EntityFramework.SqlServer.xml

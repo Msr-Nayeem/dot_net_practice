@@ -1,15 +1,16 @@
 ﻿
 using WebApplication1.Models;
 using System;
-using System.ComponentModel.DataAnnotations;  
-  
+using System.ComponentModel.DataAnnotations;
+using WebApplication1.Entity;
+
 namespace WebApplication1.CustomValidation
 {
     public class Min18Year : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var reg = (StudentsDashboard)validationContext.ObjectInstance;
+            var reg = (Student)validationContext.ObjectInstance;
 
             if (reg.Dob == null)
                 return new ValidationResult("Date of Birth is required.");
