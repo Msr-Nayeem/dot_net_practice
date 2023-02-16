@@ -16,7 +16,7 @@ namespace WebApplication1.CustomValidation
             {
                 context.Result = new RedirectToRouteResult(
                     new RouteValueDictionary(
-                        new { controller = "Home", action = "Login", tempData = "You must log in first" }));
+                        new { controller = "Home", action = "Login", tempData = "Authorized User only" }));
             }
             else
             {

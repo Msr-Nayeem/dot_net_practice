@@ -36,22 +36,54 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-               
+
                 var submit = new StudentEntities1();
                 var match = (from d in submit.Students where d.Email== info.Email && d.Password == info.Password select d).SingleOrDefault();
 
                 if (match != null)
                 {
+                    //set value in cookie
+                    
+
+
+                    if (info.Remember != null)
+                    {
+                        Response.Cookies["Email"].Value = info.Email.Trim();
+                        Response.Cookies["Password"].Value = info.Password.Trim();
+                        Response.Cookies["Remember"].Value = "checked";
+
+                        Response.Cookies["Email"].Expires = DateTime.Now.AddDays(7);
+                        Response.Cookies["Password"].Expires = DateTime.Now.AddDays(7);
+                        Response.Cookies["Remember"].Expires = DateTime.Now.AddDays(7);
+                        
+
+                        //HttpCookie cookie1 = new HttpCookie("Email", info.Email);
+                        //cookie1.Expires = DateTime.Now.AddDays(7);
+                        //Response.Cookies.Add(cookie1);
+
+                        //HttpCookie cookie2 = new HttpCookie("Password", info.Password);
+                        //cookie2.Expires = DateTime.Now.AddDays(7);
+                        //Response.Cookies.Add(cookie2);
+                    }
+                    else
+                    {
+                        
+                            Response.Cookies["Email"].Expires = DateTime.Now.AddDays(-1);
+                            Response.Cookies["Password"].Expires = DateTime.Now.AddDays(-1);
+                            Response.Cookies["Remember"].Expires = DateTime.Now.AddDays(-1);
+                        
+                        
+                    }
+                    
+                   
+                    
                     Session["email"] = info.Email;
-                    HttpCookie cookie = new HttpCookie("email", info.Email);
-                    cookie.Expires = DateTime.Now.AddDays(7);
-                    Response.Cookies.Add(cookie);
 
                     return RedirectToAction("MyProfile", "Dashboard");
                 }
                 else
                 {
-                    TempData[key: "Msg"] = "Email/Password not matched";
+                    TempData["Msg"] = "Email/Password not matched";
                     return View();
                 }
             }
@@ -91,6 +123,7 @@ namespace WebApplication1.Controllers
 
             return View(datas);
         }
+       
         public ActionResult Info() { 
         Home h = new Home();
             h.Email = "msrnayeem@gmail.com";

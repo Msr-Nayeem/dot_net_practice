@@ -75,11 +75,11 @@ namespace WebApplication1.Controllers
                 ViewBag.section = "B";
                ViewBag.id = "18-38037-2";
                
-            HttpCookie nameCookie = Request.Cookies["email"];
-            if(nameCookie != null)
+            
+            if(Session["email"].ToString() != null)
             {
-                string Email = nameCookie.Value.Split('=')[0];
-                string query = "select * from Students where Email='" + Email + "' ";
+                string Email = Session["email"].ToString();
+
 
                 var db = new StudentEntities1();
                 
@@ -98,7 +98,7 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                TempData[key: "Msg"] = "Login First";
+                TempData[key: "Msg"] = "Login error";
                 return RedirectToAction("Login", "Home");
             }
             
@@ -258,54 +258,7 @@ namespace WebApplication1.Controllers
             //session clear
             Session["email"] = null;
 
-            //cookie clear
-            var email = Request.Cookies["email"];
-            email.Expires = DateTime.Now.AddDays(-1);
-            Response.Cookies.Add(email);
-
-
             return RedirectToAction("Login", "Home");
-        }
-
-
-        public StudentsDashboard GetInformation(String query)
-        {
-           
-            StudentsDashboard student = null;
-            DB db = new DB(query);
-            try
-            {
-                using (SqlDataReader reader = db.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        student = new StudentsDashboard()
-                        {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Name = reader.GetString(reader.GetOrdinal("Name")),
-                            Email = reader.GetString(reader.GetOrdinal("Email")),
-                            Phone = reader.GetInt32(reader.GetOrdinal("Phone")).ToString(),
-                            Dob = reader.GetDateTime(reader.GetOrdinal("Dob")).Date,
-                            Gender = reader.GetString(reader.GetOrdinal("Gender"))
-                        };
-
-                    }
-                    
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle exception
-                TempData[key: "Msg"] = ex.Message;
-                
-            }
-            finally
-            {
-                db.Dispose();
-            }
-
-
-            return student;
         }
     }
 }

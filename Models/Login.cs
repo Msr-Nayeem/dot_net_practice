@@ -14,5 +14,7 @@ namespace WebApplication1.Models
 
         [Required]
         public string Password { get; set; }
+
+        public string Remember { get; set; }
     }
 }

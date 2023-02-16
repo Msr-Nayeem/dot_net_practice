@@ -5,7 +5,7 @@
 }
 
 <h2>Login</h2>
-@if (TempData["msg"] != null)
+@if (TempData["Msg"] != null)
 {
     <div class="alert alert-info" role="alert">
         <span>@TempData["msg"]</span><br />
@@ -14,19 +14,20 @@
     </div>
 }
 
-<form action="/home/login" method="post" autocomplete="on">
-
-    Email: <input type="email" class="form-control" name="Email" placeholder="Enter Your Email" />
-
-    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-    <br />
-
-    Password: <input type="text" class="form-control" name="Password" placeholder="Enter Password" />
-    <br />
-    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-  
-   <input type="checkbox"  value="Remember" name="Remember" /> Remember me <br />
-
+<form action="/home/login" method="post" autocomplete="off">
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" name="Email" id="email" placeholder="Enter Your Email"  value="@(Request.Cookies["Email"]?.Value ?? "" )" />
+        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" name="Password" id="password" placeholder="Enter Password"  value="@((Request.Cookies["Password"] != null) ? Request.Cookies["Password"].Value : "")" />
+        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+    </div>
+    <div>
+        <input type="checkbox" name="Remember" id="remember" @(Request.Cookies["remember"] != null ? "checked" : "")  />
+        <label for="remember">Remember me</label>
+    </div>
     <button type="submit" class="btn btn-primary">Log In</button>
 </form>
-
