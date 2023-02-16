@@ -12,25 +12,23 @@ namespace WebApplication1.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class Student
+    public partial class Dept
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Student()
+        public Dept()
         {
-            this.CourseStudents = new HashSet<CourseStudent>();
+            this.Students = new HashSet<Student>();
+            this.Courses = new HashSet<Cours>();
         }
     
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Phone { get; set; }
-        public string Gender { get; set; }
-        public System.DateTime Dob { get; set; }
-        public int DeptId { get; set; }
+        public string DeptName { get; set; }
     
-        public virtual Dept Dept { get; set; }
+        public virtual Dept Dept1 { get; set; }
+        public virtual Dept Dept2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CourseStudent> CourseStudents { get; set; }
+        public virtual ICollection<Student> Students { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Cours> Courses { get; set; }
     }
 }

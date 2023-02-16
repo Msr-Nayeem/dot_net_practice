@@ -253,6 +253,125 @@ namespace WebApplication1.Controllers
                 return View(model);
             }
         }
+
+
+//DEPARTMENT
+        [HttpGet]
+        public ActionResult Department()
+        {
+            var db = new StudentEntities1();
+            var dept = db.Depts.ToList();
+            if (dept != null)
+            {
+                return View(dept);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        public ActionResult AddDepartment()
+        {
+            return  View();
+        }
+
+        [HttpPost]
+        public ActionResult AddDepartment(Dept info)
+        {
+            if(ModelState.IsValid)
+            {
+                var db = new StudentEntities1();
+                db.Depts.Add(info);
+                int rowsAffected = db.SaveChanges();
+                if (rowsAffected > 0)
+                {
+                    // the operation was successful
+                    TempData["result"] = "New Department Added";
+                    return RedirectToAction("Department");
+                }
+                else
+                {
+                    // the operation failed
+                    // handle the error here, for example by displaying an error message to the user
+                    TempData["result"] = "failed";
+                    return View(info);
+                }
+            }
+            else
+            {
+                return View(info);
+            }
+            
+        }
+        //END DEPARTMENT
+
+
+        //COURSE
+        public ActionResult CourseList(int? id)
+        {
+            var db = new StudentEntities1();
+            if (id != null)
+            {
+                
+                var courses = db.Courses.Include("Dept").Where(c => c.DeptId == id).ToList();
+
+                if (courses != null)
+                {
+                    return View(courses);
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                var courses = db.Courses.Include("Dept").ToList();
+                return View(courses);
+            }
+
+        }
+
+        public ActionResult AddCourse() 
+        {
+            var db = new StudentEntities1();
+            var dept = db.Depts.ToList();
+            if (dept != null)
+            {
+                return View(dept);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AddCourse(Cours info)
+        {
+                var db = new StudentEntities1();
+                db.Courses.Add(info);
+                int rowsAffected = db.SaveChanges();
+                if (rowsAffected > 0)
+                {
+                    // the operation was successful
+                    TempData["result"] = "New Course Added";
+                    return RedirectToAction("Department");
+                }
+                else
+                {
+                    // the operation failed
+                    // handle the error here, for example by displaying an error message to the user
+                    TempData["result"] = "failed";
+                    return View(info);
+                }
+            
+
+        }
+        //END DEPARTMENT
+
+
         public ActionResult Logout()
         {
             //session clear

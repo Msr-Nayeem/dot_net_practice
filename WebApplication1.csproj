@@ -133,6 +133,21 @@
     <Compile Include="CustomValidation\AuthFilter.cs" />
     <Compile Include="CustomValidation\Min18Year.cs" />
     <Compile Include="CustomValidation\Min18Years.cs" />
+    <Compile Include="Entity\Cours.cs">
+      <DependentUpon>Student.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\CourseStudent.cs">
+      <DependentUpon>Student.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Dept.cs">
+      <DependentUpon>Student.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Student.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Student.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\Student.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -149,6 +164,9 @@
     <Compile Include="Entity\Student1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>Student.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\sysdiagram.cs">
       <DependentUpon>Student.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
@@ -226,9 +244,14 @@
     <Content Include="Views\Dashboard\Details.cshtml" />
     <Content Include="Views\Dashboard\Update.cshtml" />
     <Content Include="Views\Home\Reg.cshtml" />
+    <Content Include="Views\Dashboard\Department.cshtml" />
+    <Content Include="Views\Dashboard\AddDepartment.cshtml" />
+    <Content Include="Views\Dashboard\CourseList.cshtml" />
+    <Content Include="Views\Dashboard\AddCourse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

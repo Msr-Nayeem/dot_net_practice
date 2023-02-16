@@ -13,6 +13,8 @@ using WebApplication1.Entity;
 using Login = WebApplication1.Models.Login;
 using Student = WebApplication1.Entity.Student;
 using System.Runtime.InteropServices;
+using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace WebApplication1.Controllers
 {
@@ -212,5 +214,7 @@ namespace WebApplication1.Controllers
             }
             
         }
+
+       
     }
 }

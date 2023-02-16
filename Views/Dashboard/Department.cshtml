@@ -1,0 +1,52 @@
+﻿@model List<WebApplication1.Entity.Dept>
+@{
+    ViewBag.Title = "Department";
+    Layout = "~/Views/Shared/loggedLayout.cshtml";
+}
+
+@*@if (TempData["result"] != null)
+{
+    <div class="alert alert-info" role="alert">
+        <span>@TempData["result"]</span>
+    </div>
+}*@
+
+<div class="container mt-5">
+    <h2 class="text-center">Department Info</h2>
+    <div class="row ml-3">
+        <a class="btn btn-primary" href="/Dashboard/AddDepartment">New Department</a>
+        <a class="btn btn-primary ml-3" href="/Dashboard/CourseList">Course List</a>
+    </div>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-bordered table-hover">
+                <tr class="table-warning">
+                    <td>Department ID</td>
+                    <td>Department Name</td>
+                </tr>
+                @if (Model.Any())
+                {
+                    foreach (var dept in Model)
+                    {
+                        <tr>
+                            <td>@dept.Id</td>
+                            <td><a href="@Url.Action("CourseList", "Dashboard", new { id = dept.Id })">@dept.DeptName</a></td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="2" class="text-center">No Department Yet</td>
+                    </tr>
+                }
+
+            </table>
+
+            <a class="btn btn-primary" href="@(Request.UrlReferrer?.ToString() ?? Url.Action("Index", "Home"))">Back</a>
+        </div>
+    </div>
+
+</div>

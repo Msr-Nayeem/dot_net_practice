@@ -11,8 +11,177 @@
     <Property Name="Phone" Type="String" MaxLength="14" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Gender" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Dob" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="DeptId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Dept" Relationship="StudentModel.FK_Students_Students" FromRole="Student" ToRole="Dept" />
+    <NavigationProperty Name="CourseStudents" Relationship="StudentModel.FK_CourseStudent_Students" FromRole="Student" ToRole="CourseStudent" />
   </EntityType>
   <EntityContainer Name="StudentEntities1" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Students" EntityType="Self.Student" />
+    <EntitySet Name="Depts" EntityType="StudentModel.Dept" />
+    <AssociationSet Name="FK_Dept_Dept" Association="StudentModel.FK_Dept_Dept">
+      <End Role="Dept" EntitySet="Depts" />
+      <End Role="Dept1" EntitySet="Depts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Students_Students" Association="StudentModel.FK_Students_Students">
+      <End Role="Dept" EntitySet="Depts" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <EntitySet Name="Courses" EntityType="StudentModel.Cours" />
+    <EntitySet Name="CourseStudents" EntityType="StudentModel.CourseStudent" />
+    <EntitySet Name="sysdiagrams" EntityType="StudentModel.sysdiagram" />
+    <AssociationSet Name="FK_Courses_Courses" Association="StudentModel.FK_Courses_Courses">
+      <End Role="Dept" EntitySet="Depts" />
+      <End Role="Cours" EntitySet="Courses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseStudent_Courses" Association="StudentModel.FK_CourseStudent_Courses">
+      <End Role="Cours" EntitySet="Courses" />
+      <End Role="CourseStudent" EntitySet="CourseStudents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseStudent_Students" Association="StudentModel.FK_CourseStudent_Students">
+      <End Role="Student" EntitySet="Students" />
+      <End Role="CourseStudent" EntitySet="CourseStudents" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(StudentModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(StudentModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
   </EntityContainer>
+  <EntityType Name="Dept">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Dept1" Relationship="StudentModel.FK_Dept_Dept" FromRole="Dept" ToRole="Dept1" />
+    <NavigationProperty Name="Dept2" Relationship="StudentModel.FK_Dept_Dept" FromRole="Dept1" ToRole="Dept" />
+    <NavigationProperty Name="Students" Relationship="StudentModel.FK_Students_Students" FromRole="Dept" ToRole="Student" />
+    <NavigationProperty Name="Courses" Relationship="StudentModel.FK_Courses_Courses" FromRole="Dept" ToRole="Cours" />
+    <Property Name="DeptName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_Dept_Dept">
+    <End Type="StudentModel.Dept" Role="Dept" Multiplicity="1" />
+    <End Type="StudentModel.Dept" Role="Dept1" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Dept">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Dept1">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Students_Students">
+    <End Type="StudentModel.Dept" Role="Dept" Multiplicity="1" />
+    <End Type="StudentModel.Student" Role="Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dept">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="DeptId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Cours">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DeptId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Dept" Relationship="StudentModel.FK_Courses_Courses" FromRole="Cours" ToRole="Dept" />
+    <NavigationProperty Name="CourseStudents" Relationship="StudentModel.FK_CourseStudent_Courses" FromRole="Cours" ToRole="CourseStudent" />
+    <Property Name="CourseName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="CourseStudent">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StudentId" Type="Int32" Nullable="false" />
+    <Property Name="CourseId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Cours" Relationship="StudentModel.FK_CourseStudent_Courses" FromRole="CourseStudent" ToRole="Cours" />
+    <NavigationProperty Name="Student" Relationship="StudentModel.FK_CourseStudent_Students" FromRole="CourseStudent" ToRole="Student" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Courses_Courses">
+    <End Type="StudentModel.Dept" Role="Dept" Multiplicity="1" />
+    <End Type="StudentModel.Cours" Role="Cours" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dept">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cours">
+        <PropertyRef Name="DeptId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseStudent_Courses">
+    <End Type="StudentModel.Cours" Role="Cours" Multiplicity="1" />
+    <End Type="StudentModel.CourseStudent" Role="CourseStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cours">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CourseStudent">
+        <PropertyRef Name="CourseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseStudent_Students">
+    <End Type="StudentModel.Student" Role="Student" Multiplicity="1" />
+    <End Type="StudentModel.CourseStudent" Role="CourseStudent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CourseStudent">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
 </Schema>
