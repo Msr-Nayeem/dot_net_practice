@@ -4,18 +4,18 @@
     Layout = "~/Views/Shared/loggedLayout.cshtml";
 }
 
-@*@if (TempData["result"] != null)
+@if (TempData["result"] != null)
 {
     <div class="alert alert-info" role="alert">
         <span>@TempData["result"]</span>
     </div>
-}*@
-
+}
 <div class="container mt-5">
     <h2 class="text-center">Department Info</h2>
     <div class="row ml-3">
         <a class="btn btn-primary" href="/Dashboard/AddDepartment">New Department</a>
         <a class="btn btn-primary ml-3" href="/Dashboard/CourseList">Course List</a>
+        <a class="btn btn-primary ml-3" href="/Dashboard/AddCourse">New Course</a>
     </div>
     <hr />
 

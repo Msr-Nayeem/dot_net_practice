@@ -1,4 +1,5 @@
 ﻿@model WebApplication1.Entity.Student
+
 @{
     ViewBag.Title = "Registration";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,8 +11,8 @@
 {
     <div class="alert alert-info" role="alert">
         <span>@TempData["msg"]</span><br />
-        
-        
+
+
     </div>
 }
 
@@ -21,26 +22,26 @@
     <div class="form-group">
         <label for="Name">Name:</label>
         <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter Name" value="@(Model?.Name ?? "")" />
-        <br /> @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
 
     </div>
 
     <div class="form-group">
         <label for="Email">Email:</label>
         <input type="text" class="form-control" id="Email" name="Email" placeholder="Enter Your Email" value="@(Model?.Email ?? "")" />
-        <br />@Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
         <label for="Password">Password:</label>
         <input type="Password" class="form-control" id="Password" name="Password" placeholder="Enter Password" value="@(Model?.Password ?? "")" />
-        <br />@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
         <label for="Phone">Phone:</label>
         <input type="text" class="form-control" id="Phone" name="Phone" placeholder="Enter Phone Number" />
-        <br />@Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
@@ -60,9 +61,41 @@
         <label for="gender-female">Female</label>
         @Html.ValidationMessageFor(m => m.Gender, "", new { @class = "text-danger" })
     </div>
+    <div class="form-group">
+        <label for="DeptId">Department : </label>
+        <select id="DeptId" class="form-select" name="DeptId">
+            <option value="0"> Select Department</option>
+        </select>
+        @Html.ValidationMessageFor(m => m.DeptId, "", new { @class = "text-danger" })
+        <br />
+
+    </div>
 
     <br />
 
-    <button class="btn btn-primary">Sign Up</button>
+    <button type="submit" class="btn btn-primary">Sign Up</button>
 </form>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: '@Url.Action("GetDeptList", "API")',
+            type: 'GET',
+            success: function(data) {
+                var selectList = $('#DeptId');
+                $.each(data, function (i, item) {
+                    selectList.append($('<option>', {
+                        value: item.Id,
+                        text: item.DeptName
+                    }));
+                });
+            },
+            error: function() {
+                alert('An error occurred while loading the departments.');
+            }
+        });
+    });
+</script>
 

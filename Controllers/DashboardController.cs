@@ -12,82 +12,33 @@ using System.Diagnostics;
 using WebApplication1.CustomValidation;
 using WebApplication1.Entity;
 using System.Data.Entity.Validation;
+using Newtonsoft.Json;
 
 namespace WebApplication1.Controllers
 {
     public class DashboardController : Controller
     {
         // GET: Dashboard
-
-        public class Student
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public string CGPA { get; set; }
-        }
         public ActionResult Index()
         {
-            ViewBag.Title = "Dashboard";
-
-            Student single = new Student
-            {
-                Id = 38037,
-                Name = "Nayeem",
-                CGPA = "3.30"
-            };
-            ViewBag.List = single;
-
-            //list
-            List<Student> multipleStudent = new List<Student>();  
-            for(int i = 0;i<3; i++)
-            {
-                string name="student"+(i+1);
-                int id = i+1;
-                string cgpa = "3.3"+(i);
-
-                multipleStudent.Add(new Student()
-                {
-                    Id = id, CGPA= cgpa, Name= name
-                }) ;
-            }
-            ViewBag.multipleList = multipleStudent;
-
-            //Array
-            Student[] ss = new Student[3];
-            for(int i = 0;i<ss.Length; i++)
-            {
-                ss[i] = new Student();
-                ss[i].Id = i + 1;
-                ss[i].CGPA = "3.3" + (i);
-                ss[i].Name = "msr" + (i + 1);
-            }
-            ViewBag.Students = ss;
-            
+           
             
             return View();
         }
 
         [AuthFilter]
         public ActionResult MyProfile()
-        {
-            @ViewBag.Title = "My Profile";
-                ViewBag.name = "Shahidur rahman nayeem";
-                ViewBag.section = "B";
-               ViewBag.id = "18-38037-2";
-               
-            
+        {  
             if(Session["email"].ToString() != null)
             {
                 string Email = Session["email"].ToString();
 
-
                 var db = new StudentEntities1();
-                
-                var data = (from d in db.Students where d.Email== Email select d).SingleOrDefault();
-                
-                if (data != null)
+                var profile = db.Students.Include("Dept").Where(s =>s.Email == Email).SingleOrDefault();
+
+                if (profile != null)
                 {
-                    return View(data);
+                    return View(profile);
                 }
                 else
                 {
@@ -114,14 +65,14 @@ namespace WebApplication1.Controllers
                 TempData[key: "id"] = id;
                 TempData[key: "result"] = "Deleted Successfully";
             }
-            else
+            else if(result == 0)
             {
                 TempData[key: "result"] = "Failed to delete";
             }
 
             var db = new StudentEntities1();
-            var students = db.Students.ToList();
-            if(students != null)
+            var students = db.Students.Include("Dept").OrderBy(c => c.Dept.DeptName).ToList();
+            if (students != null)
             {
                 return View(students);
             }
@@ -147,10 +98,9 @@ namespace WebApplication1.Controllers
             {
                 TempData[key: "result"] = null;
             }
+
             var db = new StudentEntities1();
-
-            var data = (from d in db.Students where d.Id == id select d).SingleOrDefault();
-
+            var data = db.Students.Include("Dept").Where(s => s.Id == id).SingleOrDefault();
             if (data != null)
             {
                 return View(data);
@@ -204,7 +154,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update(WebApplication1.Entity.Student model)
+        public ActionResult Update(Student  model)
         {
             var db = new StudentEntities1();
 
@@ -231,27 +181,11 @@ namespace WebApplication1.Controllers
                 // Update was successful
                
             }
-            catch (DbEntityValidationException ex)
+            catch (DbEntityValidationException)
             {
-                // Handle validation errors
-                var errorMessages = ex.EntityValidationErrors
-                    .SelectMany(x => x.ValidationErrors)
-                    .Select(x => x.ErrorMessage);
-
-                var fullErrorMessage = string.Join("; ", errorMessages);
-                var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
-
-                TempData[key: "Msg"] = exceptionMessage;
-
                 return View(model);
             }
-            catch (Exception ex)
-            {
-                // Handle other exceptions
-                TempData[key: "Msg"] = ex.Message;
-
-                return View(model);
-            }
+            
         }
 
 
@@ -260,7 +194,7 @@ namespace WebApplication1.Controllers
         public ActionResult Department()
         {
             var db = new StudentEntities1();
-            var dept = db.Depts.ToList();
+            var dept = db.Depts.OrderBy(c => c.DeptName).ToList();
             if (dept != null)
             {
                 return View(dept);
@@ -327,7 +261,7 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                var courses = db.Courses.Include("Dept").ToList();
+                var courses = db.Courses.Include("Dept").OrderBy(c => c.Dept.DeptName).ToList();
                 return View(courses);
             }
 
@@ -336,40 +270,42 @@ namespace WebApplication1.Controllers
         public ActionResult AddCourse() 
         {
             var db = new StudentEntities1();
+
             var dept = db.Depts.ToList();
-            if (dept != null)
-            {
-                return View(dept);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            var jsonData = new SelectList(dept, "Id", "DeptName");
+            //ViewBag.JsonData = JsonConvert.SerializeObject(jsonData);
+            ViewBag.JsonData = JsonConvert.SerializeObject(db.Depts.Select(x => new { Value = x.Id, Text = x.DeptName }).ToList());
+
+            return View();
         }
 
         [HttpPost]
         public ActionResult AddCourse(Cours info)
         {
+            if (ModelState.IsValid)
+            {
                 var db = new StudentEntities1();
                 db.Courses.Add(info);
+
                 int rowsAffected = db.SaveChanges();
                 if (rowsAffected > 0)
                 {
-                    // the operation was successful
                     TempData["result"] = "New Course Added";
                     return RedirectToAction("Department");
                 }
                 else
                 {
-                    // the operation failed
-                    // handle the error here, for example by displaying an error message to the user
                     TempData["result"] = "failed";
                     return View(info);
                 }
-            
-
+            }
+            else
+            {
+                return View(info);
+            }
+           
         }
-        //END DEPARTMENT
+        //END COURSE
 
 
         public ActionResult Logout()

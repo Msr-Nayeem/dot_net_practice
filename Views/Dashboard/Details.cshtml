@@ -41,6 +41,10 @@
                         <td>Gender</td>
                         <td>@Model.Gender</td>
                     </tr>
+                    <tr>
+                        <td>Department</td>
+                        <td>@Model.Dept.DeptName</td>
+                    </tr>
                 </tbody>
             </table>
             <a href="@Url.Action("Update", new { id = @Model.Id })" class="btn btn-primary">Edit/Update</a>

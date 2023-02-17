@@ -15,6 +15,7 @@ using Student = WebApplication1.Entity.Student;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
+using Newtonsoft.Json;
 
 namespace WebApplication1.Controllers
 {
@@ -153,7 +154,13 @@ namespace WebApplication1.Controllers
 
         public ActionResult Registration()
         {
+            var db = new StudentEntities1();
+           
+            var dept = db.Depts.ToList();
+            var jsonData = new SelectList(dept, "Id", "DeptName");
+            ViewBag.JsonData = JsonConvert.SerializeObject(jsonData);
             return View();
+
         }
         [HttpPost]
        // public ActionResult Registration(string Namee,string Emaill,string Passwordd)

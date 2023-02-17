@@ -1,28 +1,51 @@
-﻿@model List<WebApplication1.Entity.Dept>
+﻿@model WebApplication1.Entity.Cours
 @{
     ViewBag.Title = "AddCourse";
     Layout = "~/Views/Shared/loggedLayout.cshtml";
 }
 
 <h2>Add Course</h2>
-
+@if (TempData["result"] != null)
+{
+    <div class="alert alert-danger">@TempData["result"]</div>
+}
 <form action="/Dashboard/AddCourse" method="post">
-    <div >
+    <div>
         <label for="DeptId">Department : </label>
         <select class="form-select form-select-lg mb-3" id="DeptId" name="DeptId">
             <option value="0">Select Department</option>
-            @foreach (var item in Model)
-            {
-               <option value="@item.Id"> @item.DeptName </option>
-            }
         </select>
-        <br />
+        <br />@Html.ValidationMessageFor(m => m.DeptId, "", new { @class = "text-danger" })
     </div>
+    
+
     <div class="form-group">
-        <label for="Name">Name:</label>
-        <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter Name" />
-        <br />
+        <label for="Name">Course Name:</label>
+        <input type="text" class="form-control" id="CourseName" name="CourseName" placeholder="Enter Course Name" />
+        <br /> @Html.ValidationMessageFor(m => m.CourseName, "", new { @class = "text-danger" })
     </div>
-    <button class="btn btn-primary">Add</button>
+    <button type="submit" class="btn btn-primary">Add Now</button>
 
 </form>
+
+
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: '@Url.Action("GetDeptList", "API")',
+            type: 'GET',
+            success: function(data) {
+                var selectList = $('#DeptId');
+                $.each(data, function (i, item) {
+                    selectList.append($('<option>', {
+                        value: item.Id,
+                        text: item.DeptName
+                    }));
+                });
+            },
+            error: function() {
+                alert('An error occurred while loading the departments.');
+            }
+        });
+    });
+</script>

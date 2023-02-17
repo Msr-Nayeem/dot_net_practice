@@ -128,6 +128,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\APIController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="CustomValidation\AuthFilter.cs" />
@@ -211,6 +212,8 @@
       <DependentUpon>Student.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\chart.js" />
+    <Content Include="Scripts\chart.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -252,6 +255,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
+    <Folder Include="Views\API\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

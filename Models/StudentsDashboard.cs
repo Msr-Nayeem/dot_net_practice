@@ -35,12 +35,15 @@ namespace WebApplication1.Models
         [Required(ErrorMessage = "provide Phone number")]
         [RegularExpression("^01[0-9]+", ErrorMessage = "Phone number must start with 01")]
         [StringLength(11, MinimumLength = 11, ErrorMessage = "Phone number must be 11 characters long")]
-
         public String Phone { get; set; }
 
         [Required(ErrorMessage = "Enter Date of birth")]
         [Min18Year]
         public DateTime Dob { get; set; }
+
+        [Required(ErrorMessage = "Select Department")]
+        [Range(1, int.MaxValue, ErrorMessage = "Select Department")]
+        public int DeptID { get; set; }
 
     }
 }

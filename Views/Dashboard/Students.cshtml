@@ -48,6 +48,7 @@
         <td>Name</td>
         <td>Email</td>
         <td>Gender</td>
+        <td>Department</td>
         <td>Action</td>
     </tr>
     @foreach (var item in Model)
@@ -56,6 +57,7 @@
             <td><a href="@Url.Action("Details", "Dashboard", new { id = item.Id })">@item.Name</a></td>
             <td>@item.Email</td>
             <td>@item.Gender</td>
+            <td>@item.Dept.DeptName</td>
             <td><a href="@Url.Action("Delete", "Dashboard", new { id = item.Id })" class="btn btn-danger"><i class="fas fa-trash"></i>  Delete</a></td>
            
         </tr>

@@ -11,7 +11,8 @@ namespace WebApplication1.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Dept
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,6 +23,8 @@ namespace WebApplication1.Entity
         }
     
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "Enter Department Name")]
         public string DeptName { get; set; }
     
         public virtual Dept Dept1 { get; set; }
