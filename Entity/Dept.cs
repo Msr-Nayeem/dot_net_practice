@@ -9,6 +9,7 @@
 
 namespace WebApplication1.Entity
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -21,12 +22,13 @@ namespace WebApplication1.Entity
             this.Students = new HashSet<Student>();
             this.Courses = new HashSet<Cours>();
         }
-    
+
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Enter Department Name")]
         public string DeptName { get; set; }
-    
+
+
         public virtual Dept Dept1 { get; set; }
         public virtual Dept Dept2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

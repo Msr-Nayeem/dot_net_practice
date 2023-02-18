@@ -15,6 +15,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="StudentId" Type="int" Nullable="false" />
     <Property Name="CourseId" Type="int" Nullable="false" />
+    <Property Name="Access" Type="varchar" MaxLength="10" Nullable="false" />
   </EntityType>
   <EntityType Name="Dept">
     <Key>

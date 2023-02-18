@@ -20,6 +20,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StudentId" Type="int" Nullable="false" />
           <Property Name="CourseId" Type="int" Nullable="false" />
+          <Property Name="Access" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="Dept">
           <Key>
@@ -283,6 +284,7 @@
           <Property Name="CourseId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Cours" Relationship="StudentModel.FK_CourseStudent_Courses" FromRole="CourseStudent" ToRole="Cours" />
           <NavigationProperty Name="Student" Relationship="StudentModel.FK_CourseStudent_Students" FromRole="CourseStudent" ToRole="Student" />
+          <Property Name="Access" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -381,6 +383,7 @@
           <EntitySetMapping Name="CourseStudents">
             <EntityTypeMapping TypeName="StudentModel.CourseStudent">
               <MappingFragment StoreEntitySet="CourseStudent">
+                <ScalarProperty Name="Access" ColumnName="Access" />
                 <ScalarProperty Name="CourseId" ColumnName="CourseId" />
                 <ScalarProperty Name="StudentId" ColumnName="StudentId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

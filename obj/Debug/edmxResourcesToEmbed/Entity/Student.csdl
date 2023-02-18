@@ -126,6 +126,7 @@
     <Property Name="CourseId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Cours" Relationship="StudentModel.FK_CourseStudent_Courses" FromRole="CourseStudent" ToRole="Cours" />
     <NavigationProperty Name="Student" Relationship="StudentModel.FK_CourseStudent_Students" FromRole="CourseStudent" ToRole="Student" />
+    <Property Name="Access" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="sysdiagram">
     <Key>

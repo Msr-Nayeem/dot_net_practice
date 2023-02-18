@@ -17,8 +17,7 @@
             <img src="https://picsum.photos/300" alt="Random Image from Picsum">
 
         </div>
-        <div class="col-md-8">
-
+        <div class="col-md-4">
             <table class="table table-bordered border-dark table-hover">
                 <tbody>
                     <tr>
@@ -50,5 +49,74 @@
             <a href="@Url.Action("Update", new { id = @Model.Id })" class="btn btn-primary">Edit/Update</a>
             <a class="btn btn-primary" href="@(Request.UrlReferrer?.ToString() ?? Url.Action("Index", "Home"))">Back</a>
         </div>
+        <div class="col-md-4">
+            <h3 class="text-center">Courses</h3>
+            <table class="table table-bordered border-dark table-hover" id="CourseList">
+                <tbody>
+                    <tr>
+                        <td>Course Id</td>
+                        <td>Course Name</td>
+                        <td>Access</td>
+                    </tr>
+                    @if (ViewBag.Courses != null)
+                    {
+                        foreach (var courseStudent in ViewBag.Courses)
+                        {
+                            <tr>
+                                <td>@courseStudent.Cours.Id</td>
+                                <td>@courseStudent.Cours.CourseName</td>
+                                <td>@courseStudent.Access</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center">Not Registered yet !</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+
+<div class="col-md-4">
+    @if (ViewBag.Courses != null)
+    {
+        foreach (var courseStudent in ViewBag.Courses)
+        {
+            <p></p>
+            <p></p>
+        }
+    }
+    else
+    {
+        <p> null </p>
+    }
+</div>
+<script>
+$(document).ready(function() {
+    var studentId = @Model.Id;
+    console.log(studentId);
+
+    @*if (studentId) {
+        $.ajax({
+            url: '@Url.Action("GetStudentsCourseList", "API")',
+            type: 'GET',
+            data: { id: studentId },
+            success: function (data) {
+                console.log(data);
+            },
+            error: function () {
+                console.log('An error occurred.');
+            }
+        });
+    }
+    else {
+        console.log("failed");
+    }*@
+
+});
+
+</script>

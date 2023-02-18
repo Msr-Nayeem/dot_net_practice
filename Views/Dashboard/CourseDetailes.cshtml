@@ -1,28 +1,22 @@
-﻿@model List<WebApplication1.Entity.Cours>
+﻿@model List<WebApplication1.Entity.CourseStudent>
 @{
-    ViewBag.Title = "Course List";
+    ViewBag.Title = "CourseDetailes";
     Layout = "~/Views/Shared/loggedLayout.cshtml";
 }
 
-@*@if (TempData["result"] != null)
-    {
-        <a href="@Url.Action("CourseList", "Dashboard", new { id = course.Dept.Id })">@course.Dept.DeptName</a>
-        <div class="alert alert-info" role="alert">
-            <span>@TempData["result"]</span>
-        </div>
-    }*@
 
 <div class="container mt-5">
-    <h2 class="text-center">Course Info</h2>
+    <h2 class="text-center">Course Detailes</h2>
     <hr />
 
     <div class="row">
         <div class="col-md-8">
             <table class="table table-bordered table-hover">
                 <tr class="table-warning">
-                    <td>Course  ID</td>
+                    <td>ID</td>
                     <td>Course Name</td>
-                    <td>Department Name</td>
+                    <td>Student Name</td>
+                    <td>Access</td>
                 </tr>
                 @if (Model.Any())
                 {
@@ -30,16 +24,16 @@
                     {
                         <tr>
                             <td>@course.Id</td>
-                            <td><a href="@Url.Action("CourseDetailes", "Dashboard", new { id = course.Id })">@course.CourseName</a></td>
-
-                            <td><a href="@Url.Action("CourseList", "Dashboard", new { id = course.Dept.Id })">@course.Dept.DeptName</a></td>
+                            <td>@course.Cours.CourseName</td>
+                            <td><a href="@Url.Action("Details", "Dashboard", new { id = course.Student.Id })">@course.Student.Name</a></td>
+                            <td>@course.Access</td>
                         </tr>
                     }
                 }
                 else
                 {
                     <tr>
-                        <td colspan="3" class="text-center">No Course Yet !</td>
+                        <td colspan="3" class="text-center">No Students Yet !</td>
                     </tr>
                 }
             </table>

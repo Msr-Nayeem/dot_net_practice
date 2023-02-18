@@ -10,7 +10,7 @@
         <AssociationConnector Association="StudentModel.FK_Dept_Dept" />
         <AssociationConnector Association="StudentModel.FK_Students_Students" />
         <EntityTypeShape EntityType="StudentModel.Cours" Width="1.5" PointX="3" PointY="4.75" />
-        <EntityTypeShape EntityType="StudentModel.CourseStudent" Width="1.5" PointX="5.25" PointY="3" />
+        <EntityTypeShape EntityType="StudentModel.CourseStudent" Width="1.5" PointX="5.25" PointY="3.875" />
         <EntityTypeShape EntityType="StudentModel.sysdiagram" Width="1.5" PointX="5.75" PointY="0.75" />
         <AssociationConnector Association="StudentModel.FK_Courses_Courses" />
         <AssociationConnector Association="StudentModel.FK_CourseStudent_Courses" />

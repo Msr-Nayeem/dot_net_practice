@@ -35,6 +35,7 @@
     <EntitySetMapping Name="CourseStudents">
       <EntityTypeMapping TypeName="StudentModel.CourseStudent">
         <MappingFragment StoreEntitySet="CourseStudent">
+          <ScalarProperty Name="Access" ColumnName="Access" />
           <ScalarProperty Name="CourseId" ColumnName="CourseId" />
           <ScalarProperty Name="StudentId" ColumnName="StudentId" />
           <ScalarProperty Name="Id" ColumnName="Id" />

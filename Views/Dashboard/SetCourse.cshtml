@@ -1,0 +1,111 @@
+﻿@model WebApplication1.Entity.CourseStudent
+@{
+    ViewBag.Title = "SetCourse";
+    Layout = "~/Views/Shared/loggedLayout.cshtml";
+}
+
+<h2>Course Registration</h2>
+<hr />
+@if (TempData["result"] != null)
+{
+    <div class="alert alert-danger">@TempData["result"]</div>
+}
+<form action="/Dashboard/SetCourse" method="post">
+    <div>
+        <label for="DeptId">Department : </label>
+        <select class="form-select form-select-lg mb-3" id="DeptId" name="DeptId">
+            <option value="0">Select Department</option>
+        </select>
+        @Html.ValidationMessageFor(model => model.DeptId, "", new { @class = "text-danger" })
+    </div>
+
+    <div>
+        <label for="CourseId">Course : </label>
+        <select class="form-select form-select-lg mb-3" id="CourseId" name="CourseId">
+            <option value="0">Select Course</option>
+        </select>
+        @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+    </div>
+    <div>
+        <label for="StudentId">Student : </label>
+        <select class="form-select form-select-lg mb-3" id="StudentId" name="StudentId">
+            <option value="0">Select Student</option>
+        </select>
+        @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register Now</button>
+
+</form>
+
+
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: '@Url.Action("GetDeptList", "API")',
+            type: 'GET',
+            success: function(data) {
+                var selectList = $('#DeptId');
+                $.each(data, function (i, item) {
+                    selectList.append($('<option>', {
+                        value: item.Id,
+                        text: item.DeptName
+                    }));
+                });
+            },
+            error: function() {
+                alert('An error occurred while loading the departments.');
+            }
+        });
+    });
+
+    $("#DeptId").on("change", function () {
+        var deptId = $(this).val();
+        $.ajax({
+            url: '@Url.Action("GetCourseList", "API")',
+            type: 'GET',
+            data: { id: deptId }, // pass deptId as a parameter
+            success: function (data) {
+                var selectList = $('#CourseId');
+                selectList.empty(); // Remove all existing options
+                selectList.append($('<option>', { // Add default option
+                    value: '0',
+                    text: 'Select Course'
+                }));
+                $.each(data, function (i, item) { // Add options from data array
+                    selectList.append($('<option>', {
+                        value: item.Id,
+                        text: item.CourseName
+                    }));
+                });
+            },
+            error: function() {
+                alert('An error occurred while loading the courses.');
+            }
+        });
+
+        $.ajax({
+            url: '@Url.Action("GetStudentList", "API")',
+            type: 'GET',
+            data: { id: deptId }, // pass deptId as a parameter
+            success: function (data) {
+                var selectList = $('#StudentId');
+                selectList.empty(); // Remove all existing options
+                selectList.append($('<option>', { // Add default option
+                    value: '0',
+                    text: 'Select Student'
+                }));
+                $.each(data, function (i, item) { // Add options from data array
+                    selectList.append($('<option>', {
+                        value: item.Id,
+                        text: item.Name
+                    }));
+                });
+            },
+            error: function() {
+                alert('An error occurred while loading students.');
+            }
+        });
+    });
+
+</script>

@@ -13,6 +13,7 @@ using WebApplication1.CustomValidation;
 using WebApplication1.Entity;
 using System.Data.Entity.Validation;
 using Newtonsoft.Json;
+using System.Data.Entity;
 
 namespace WebApplication1.Controllers
 {
@@ -55,7 +56,7 @@ namespace WebApplication1.Controllers
             
         }
 
-        [AuthFilter]
+      //  [AuthFilter]
         public ActionResult Students(int? id = null, int? result = null)
         {
             
@@ -100,9 +101,20 @@ namespace WebApplication1.Controllers
             }
 
             var db = new StudentEntities1();
-            var data = db.Students.Include("Dept").Where(s => s.Id == id).SingleOrDefault();
+             var data = db.Students.Include("Dept").Where(s => s.Id == id).SingleOrDefault();
+
             if (data != null)
             {
+                var dbs = new StudentEntities1();
+                var courses = dbs.CourseStudents.Include("Cours").Where(cs => cs.StudentId == id).ToList();
+                if (courses.Any())
+                {
+                    ViewBag.courses = courses;
+                }
+                else
+                {
+                    ViewBag.courses = null;
+                }
                 return View(data);
             }
             else
@@ -111,8 +123,6 @@ namespace WebApplication1.Controllers
                 return RedirectToAction("Students");
             }
         }
-
-
 
         [HttpGet]
         public ActionResult Delete(int id)
@@ -185,7 +195,10 @@ namespace WebApplication1.Controllers
             {
                 return View(model);
             }
-            
+            catch (Exception)
+            {
+                return View(model);
+            }
         }
 
 
@@ -282,30 +295,81 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public ActionResult AddCourse(Cours info)
         {
+            var db = new StudentEntities1();
+            if (info == null)
+            {
+                return View(info);
+            }
             if (ModelState.IsValid)
             {
-                var db = new StudentEntities1();
                 db.Courses.Add(info);
-
                 int rowsAffected = db.SaveChanges();
-                if (rowsAffected > 0)
+                if (rowsAffected >0)
                 {
-                    TempData["result"] = "New Course Added";
-                    return RedirectToAction("Department");
+                    TempData["result"] = "Course Added";
+                    return View();
                 }
                 else
                 {
                     TempData["result"] = "failed";
-                    return View(info);
+                    return View();
                 }
             }
             else
             {
                 return View(info);
             }
-           
+            
         }
+
+
+        public ActionResult CourseDetailes(int? id)
+        {
+            var db = new StudentEntities1();
+            var students = db.CourseStudents.Include("Student").Include("Cours").Where(s => s.CourseId == id).ToList();
+            return View(students);
+        }
+
+
         //END COURSE
+
+
+        //SET_COURSE
+        public ActionResult SetCourse()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult SetCourse(CourseStudent info)
+        {
+            if (info == null)
+            {
+                return View();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var db = new StudentEntities1();
+                db.CourseStudents.Add(info);
+
+                int rowsAffected = db.SaveChanges();
+                if (rowsAffected > 0)
+                {
+                    TempData["result"] = "Registered";
+                    return View();
+                }
+                else
+                {
+                    TempData["result"] = "failed";
+                    return View();
+                }
+            }
+            else
+            {
+                return View();
+            }
+
+        }
 
 
         public ActionResult Logout()
