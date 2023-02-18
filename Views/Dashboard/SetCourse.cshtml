@@ -16,7 +16,6 @@
         <select class="form-select form-select-lg mb-3" id="DeptId" name="DeptId">
             <option value="0">Select Department</option>
         </select>
-        @Html.ValidationMessageFor(model => model.DeptId, "", new { @class = "text-danger" })
     </div>
 
     <div>
@@ -39,8 +38,10 @@
 </form>
 
 
-<script>
-    $(document).ready(function() {
+<script>      
+
+    $(document).ready(function () {
+        $("#DeptId").prop("required", true);
         $.ajax({
             url: '@Url.Action("GetDeptList", "API")',
             type: 'GET',

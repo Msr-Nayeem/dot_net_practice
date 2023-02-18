@@ -3,7 +3,10 @@
     ViewBag.Title = "CourseDetailes";
     Layout = "~/Views/Shared/loggedLayout.cshtml";
 }
-
+ @if(TempData["result"] != null)
+    {
+        <div class="alert alert-danger">@TempData["result"]</div>
+    }
 
 <div class="container mt-5">
     <h2 class="text-center">Course Detailes</h2>
@@ -17,6 +20,7 @@
                     <td>Course Name</td>
                     <td>Student Name</td>
                     <td>Access</td>
+                    <td>Action</td>
                 </tr>
                 @if (Model.Any())
                 {
@@ -27,6 +31,15 @@
                             <td>@course.Cours.CourseName</td>
                             <td><a href="@Url.Action("Details", "Dashboard", new { id = course.Student.Id })">@course.Student.Name</a></td>
                             <td>@course.Access</td>
+                            @if (@course.Access == "Active")
+                            {
+                                <td><a href="/Dashboard/ChangeAccess?studentID=@course.StudentId&amp;courseId=@course.Cours.Id">Active</a></td>
+                            }
+                            else
+                            {
+                                <td><a href="/Dashboard/ChangeAccess?studentID=@course.StudentId&amp;courseId=@course.Cours.Id">Active</a></td>
+                            }
+
                         </tr>
                     }
                 }

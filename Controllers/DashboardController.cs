@@ -39,6 +39,15 @@ namespace WebApplication1.Controllers
 
                 if (profile != null)
                 {
+                    var courses = db.CourseStudents.Include("Cours").Where(cs => cs.StudentId == profile.Id).ToList();
+                    if (courses.Any())
+                    {
+                        ViewBag.courses = courses;
+                    }
+                    else
+                    {
+                        ViewBag.courses = null;
+                    }
                     return View(profile);
                 }
                 else
@@ -105,8 +114,8 @@ namespace WebApplication1.Controllers
 
             if (data != null)
             {
-                var dbs = new StudentEntities1();
-                var courses = dbs.CourseStudents.Include("Cours").Where(cs => cs.StudentId == id).ToList();
+               
+                var courses = db.CourseStudents.Include("Cours").Where(cs => cs.StudentId == id).ToList();
                 if (courses.Any())
                 {
                     ViewBag.courses = courses;
@@ -325,6 +334,10 @@ namespace WebApplication1.Controllers
 
         public ActionResult CourseDetailes(int? id)
         {
+            if(TempData["result"] != null)
+            {
+                TempData["result"] = TempData["result"].ToString();
+            }
             var db = new StudentEntities1();
             var students = db.CourseStudents.Include("Student").Include("Cours").Where(s => s.CourseId == id).ToList();
             return View(students);
@@ -370,9 +383,43 @@ namespace WebApplication1.Controllers
             }
 
         }
+        public ActionResult ChangeAccess(int? studentID, int? courseId)
+        {
+            if (studentID == null || courseId == null)
+            {
+                TempData["result"] = "Error: Invalid or missing student ID or course ID";
+                return RedirectToAction("CourseDetailes", new { id = courseId });
+            }
 
+            using (var db = new StudentEntities1())
+            {
+                var data = db.CourseStudents.SingleOrDefault(d => d.StudentId == studentID && d.CourseId == courseId);
 
-        public ActionResult Logout()
+                if (data.Access == "Block")
+                {
+                    data.Access = "Active";
+                }
+                else
+                {
+                    data.Access = "Block";
+                }
+                
+                int numRows = db.SaveChanges();
+
+                if (numRows > 0)
+                {
+                    TempData["result"] = data.Access + "Sucessfully";
+                }
+                else
+                {
+                    TempData["result"] = "Error: Failed to update course student";
+                }
+  
+                return RedirectToAction("CourseDetailes", new { id = courseId });
+            }
+        }
+    
+    public ActionResult Logout()
         {
             //session clear
             Session["email"] = null;

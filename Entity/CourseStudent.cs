@@ -15,12 +15,12 @@ namespace WebApplication1.Entity
 
     public partial class CourseStudent
     {
+        public CourseStudent()
+        {
+            Access = "Active";
+        }
+
         public int Id { get; set; }
-
-
-        [Required(ErrorMessage = "Department is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Select Departmnet")]
-        public int DeptId { get; set; }
 
         [Required(ErrorMessage = "Select Student")]
         [Range(1, int.MaxValue, ErrorMessage = "Select Student")]
