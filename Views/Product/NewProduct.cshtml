@@ -1,0 +1,93 @@
+﻿@model WebApplication1.Entity.Product
+
+@{
+    ViewBag.Title = "www.compilemode.com";
+    Layout = "~/Views/Shared/_Layout_product.cshtml";
+}
+
+@if (TempData["msg"] != null)
+{
+    <div class="alert alert-info" role="alert">
+        <span>@TempData["msg"]</span><br />
+    </div>
+}
+
+
+<form action="/Product/NewProduct" method="post" enctype="multipart/form-data">
+    <input name="__RequestVerificationToken" type="hidden" value="some token" />
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+
+            <div class="mb-3">
+                <label for="CetegoryId" class="form-label">Cetegory:</label>
+                <select id="CetegoryId" class="form-select" name="CetegoryId">
+                    <option value="0"> Select Cetegory</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.CetegoryId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                <label for="ProductName" class="form-label">Product Name:</label>
+                <input type="text" name="ProductName" class="form-control" />
+                @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+            </div>
+            <div class="mb-3">
+                <label for="ProductPrice" class="form-label">Product Price:</label>
+                <input type="text" name="ProductPrice" class="form-control" />
+                @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+            </div>
+            <div class="mb-3">
+                <label for="Description" class="form-label">Product Description:</label>
+                <textarea name="Description" class="form-control"></textarea>
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="File">File</label>
+                <input type="file" class="form-control" id="file" name="File" accept=".png, .jpg, .jpeg" />
+                <span class="text-danger field-validation-valid" data-valmsg-for="File" data-valmsg-replace="true"></span>
+                @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Upload" class="btn btn-primary" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 text-success">
+                <span>@ViewBag.FileStatus</span>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: '@Url.Action("GetCetegoryList", "APIProduct")',
+            type: 'GET',
+            success: function(data) {
+                var selectList = $('#CetegoryId');
+                $.each(data, function (i, item) {
+                    selectList.append($('<option>', {
+                        value: item.Id,
+                        text: item.CetegoryName
+                    }));
+                });
+            },
+            error: function() {
+               console.log('An error occurred while loading the List.');
+            }
+        });
+    });
+</script>

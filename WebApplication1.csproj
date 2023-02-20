@@ -129,19 +129,48 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\APIController.cs" />
+    <Compile Include="Controllers\APIProductController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="CustomValidation\AuthFilter.cs" />
     <Compile Include="CustomValidation\Min18Year.cs" />
     <Compile Include="CustomValidation\Min18Years.cs" />
+    <Compile Include="Entity\Cetegory.cs">
+      <DependentUpon>Product.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\Cours.cs">
       <DependentUpon>Student.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\CourseStudent.cs">
       <DependentUpon>Student.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\Customer.cs">
+      <DependentUpon>Product.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\Dept.cs">
       <DependentUpon>Student.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Order.cs">
+      <DependentUpon>Product.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Product.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Product.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Product.cs">
+      <DependentUpon>Product.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Product.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Product.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Product1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Product.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>Student.tt</DependentUpon>
@@ -175,7 +204,9 @@
     </Compile>
     <Compile Include="Models\DatabaseConnection.cs" />
     <Compile Include="Models\DB.cs" />
+    <Compile Include="Models\FileUpload.cs" />
     <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\RegModel.cs" />
     <Compile Include="Models\StudentsDashboard.cs" />
     <Compile Include="Models\SignUp.cs" />
@@ -191,6 +222,16 @@
     <Content Include="CustomValidation\CourseStudent.txt" />
     <Content Include="CustomValidation\Dept.txt" />
     <Content Include="CustomValidation\Student.txt" />
+    <Content Include="Entity\Product.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Product.edmx</DependentUpon>
+      <LastGenOutput>Product.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Entity\Product.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Product.edmx</DependentUpon>
+      <LastGenOutput>Product1.cs</LastGenOutput>
+    </Content>
     <Content Include="Entity\Student.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Student.edmx</DependentUpon>
@@ -214,6 +255,13 @@
     </EntityDeploy>
     <Content Include="Entity\Student.edmx.diagram">
       <DependentUpon>Student.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Entity\Product.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Product.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Entity\Product.edmx.diagram">
+      <DependentUpon>Product.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\chart.js" />
@@ -257,10 +305,20 @@
     <Content Include="Views\Dashboard\AddCourse.cshtml" />
     <Content Include="Views\Dashboard\SetCourse.cshtml" />
     <Content Include="Views\Dashboard\CourseDetailes.cshtml" />
+    <Content Include="Views\Shared\_Layout_product.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\AllProducts.cshtml" />
+    <Content Include="Views\Product\Cetegory.cshtml" />
+    <Content Include="Views\Product\OrderHistory.cshtml" />
+    <Content Include="Views\Product\NewProduct.cshtml" />
+    <Content Include="Views\Product\Customers.cshtml" />
+    <Content Include="Views\Product\CustomerInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
+    <Folder Include="UploadedFiles\" />
+    <Folder Include="Views\APIProduct\" />
     <Folder Include="Views\API\" />
   </ItemGroup>
   <ItemGroup>

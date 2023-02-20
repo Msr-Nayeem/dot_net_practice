@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Customers";
+    Layout = "~/Views/Shared/_Layout_product.cshtml";
+}
+
+@if (TempData["result"] != null)
+{
+    <div class="alert alert-info" role="alert">
+        <span>@TempData["result"]</span>
+    </div>
+}
+
+<h2>Customers</h2>
+<table class="table table-bordered table-hover">
+    <tr class="table-warning">
+        <td>Name</td>
+        <td>Email</td>
+        <td>Action</td>
+    </tr>
+    @foreach (var customer in Model)
+    {
+        <tr>
+            <td><a href="@Url.Action("CustomerInfo", "Product", new { id = customer.Id })">@customer.CustomerName</a></td>
+            <td>@customer.Email</td>
+
+            <td><a href="" class="btn btn-danger"><i class="fas fa-trash"></i>  Delete</a></td>
+
+        </tr>
+    }
+
+</table>

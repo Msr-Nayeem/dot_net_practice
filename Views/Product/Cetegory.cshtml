@@ -1,0 +1,47 @@
+﻿@model List<WebApplication1.Entity.Cetegory>
+@{
+    ViewBag.Title = "Cetegory";
+    Layout = "~/Views/Shared/_Layout_product.cshtml";
+}
+
+
+<div class="container mt-5">
+    <h2 class="text-center">Product Cetegory</h2>
+    <div class="row ml-3">
+        <a class="btn btn-primary" href="">New Cetegory</a>
+        <a class="btn btn-primary ml-3" href="">Product List</a>
+        <a class="btn btn-primary ml-3" href="">New Product</a>
+    </div>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-bordered table-hover">
+                <tr class="table-warning">
+                    <td>Department ID</td>
+                    <td>Department Name</td>
+                </tr>
+                @if (Model.Any())
+                {
+                    foreach (var cet in Model)
+                    {
+                        <tr>
+                            <td>@cet.Id</td>
+                            <td><a href="">@cet.CetegoryName</a></td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="2" class="text-center">No Cetegories Yet</td>
+                    </tr>
+                }
+
+            </table>
+
+            <a class="btn btn-primary" href="@(Request.UrlReferrer?.ToString() ?? Url.Action("Index", "Home"))">Back</a>
+        </div>
+    </div>
+
+</div>
