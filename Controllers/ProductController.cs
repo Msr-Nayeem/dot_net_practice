@@ -16,6 +16,58 @@ namespace WebApplication1.Controllers
         {
             return View();
         }  
+
+
+        public ActionResult NewCustomer()
+        {
+            return View();      
+        }
+
+        [HttpPost]
+        public ActionResult NewCustomer(Customer info, HttpPostedFileBase file)
+        {
+            if (ModelState.IsValid)
+            {
+                Random random = new Random();
+                int randomNumber = random.Next(10000, 99999);
+
+
+                var extension = Path.GetExtension(file.FileName);
+                string newFileName = info.CustomerName + randomNumber.ToString() + extension;
+
+                var path = Path.Combine(Server.MapPath("~/UploadedFiles/Customer"), newFileName);
+                file.SaveAs(path);
+
+                info.ImageLink = newFileName;
+
+
+
+                var db = new StudentEntities2();
+                db.Customers.Add(info);
+                int rowsAffected = db.SaveChanges();
+                if (rowsAffected > 0)
+                {
+                    // the operation was successful
+                    TempData["Result"] = "Registered";
+                    return View();
+                }
+                else
+                {
+                    // the operation failed
+                    // handle the error here, for example by displaying an error message to the user
+                    TempData["Result"] = "failed to register";
+                    return View(info);
+                }
+            }
+            else
+            {
+                return View(info);
+            }
+            
+        }
+
+
+
         public ActionResult Customers()
         {
             var db = new StudentEntities2();

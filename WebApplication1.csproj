@@ -313,11 +313,12 @@
     <Content Include="Views\Product\NewProduct.cshtml" />
     <Content Include="Views\Product\Customers.cshtml" />
     <Content Include="Views\Product\CustomerInfo.cshtml" />
+    <Content Include="Views\Product\NewCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
-    <Folder Include="UploadedFiles\" />
+    <Folder Include="UploadedFiles\Customer\" />
     <Folder Include="Views\APIProduct\" />
     <Folder Include="Views\API\" />
   </ItemGroup>

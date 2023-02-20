@@ -20,6 +20,7 @@
           <Property Name="CustomerName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ImageLink" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -153,6 +154,7 @@
           <NavigationProperty Name="Customers1" Relationship="Self.FK_Customers_Customers" FromRole="Customers" ToRole="Customers1" />
           <NavigationProperty Name="Customer1" Relationship="Self.FK_Customers_Customers" FromRole="Customers1" ToRole="Customers" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Customers" FromRole="Customers" ToRole="Orders" />
+          <Property Name="ImageLink" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -282,6 +284,7 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="StudentModel1.Customer">
               <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="ImageLink" ColumnName="ImageLink" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />

@@ -21,7 +21,7 @@ namespace WebApplication1.Entity
         {
             this.Orders = new HashSet<Order>();
         }
-    
+
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Please enter the product name.")]
@@ -44,7 +44,7 @@ namespace WebApplication1.Entity
 
 
         public string ImageLink { get; set; }
-    
+
         public virtual Cetegory Cetegory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }

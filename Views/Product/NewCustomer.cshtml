@@ -1,0 +1,60 @@
+﻿@model WebApplication1.Entity.Customer
+
+@{
+    ViewBag.Title = "New Customer";
+    Layout = "~/Views/Shared/_Layout_product.cshtml";
+}
+
+@if (TempData["Result"] != null)
+{
+    <div class="alert alert-info" role="alert">
+        <span>@TempData["Result"]</span><br />
+    </div>
+}
+
+
+<form action="/Product/NewCustomer" method="post" enctype="multipart/form-data">
+    <input name="__RequestVerificationToken" type="hidden" value="some token" />
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+
+            <div class="mb-3">
+                <label for="CustomerName" class="form-label">CustomerName:</label>
+                <input type="text" name="CustomerName" class="form-control" />
+                @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+            </div>
+            <div class="mb-3">
+                <label for="Email" class="form-label">Email:</label>
+                <input type="text" name="Email" class="form-control" />
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="mb-3">
+                <label for="Password" class="form-label">Password:</label>
+                <input type="text" name="Password" class="form-control" />
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="File">Profile Pic</label>
+                <input type="file" class="form-control" id="File" name="File" accept=".png, .jpg, .jpeg" />
+                <span class="text-danger field-validation-valid" data-valmsg-for="File" data-valmsg-replace="true"></span>
+                @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Register Now" class="btn btn-primary" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 text-success">
+                <span>@ViewBag.FileStatus</span>
+            </div>
+        </div>
+    </div>
+
+</form>

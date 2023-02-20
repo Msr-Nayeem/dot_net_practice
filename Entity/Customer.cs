@@ -11,7 +11,9 @@ namespace WebApplication1.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.Web;
+
     public partial class Customer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,9 +23,22 @@ namespace WebApplication1.Entity
         }
     
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "Please enter name.")]
         public string CustomerName { get; set; }
+
+
+        [Required(ErrorMessage = "Please enter email")]
         public string Email { get; set; }
+
+
+        [Required(ErrorMessage = "Please enter password")]
         public string Password { get; set; }
+
+        [Required(ErrorMessage = "Please choose an image.")]
+        public HttpPostedFileBase File { get; set; }
+
+        public string ImageLink { get; set; }
     
         public virtual Customer Customers1 { get; set; }
         public virtual Customer Customer1 { get; set; }

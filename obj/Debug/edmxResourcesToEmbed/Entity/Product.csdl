@@ -21,6 +21,7 @@
     <NavigationProperty Name="Customers1" Relationship="Self.FK_Customers_Customers" FromRole="Customers" ToRole="Customers1" />
     <NavigationProperty Name="Customer1" Relationship="Self.FK_Customers_Customers" FromRole="Customers1" ToRole="Customers" />
     <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Customers" FromRole="Customers" ToRole="Orders" />
+    <Property Name="ImageLink" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Order">
     <Key>

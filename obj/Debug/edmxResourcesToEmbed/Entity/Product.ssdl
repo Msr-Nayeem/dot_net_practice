@@ -15,6 +15,7 @@
     <Property Name="CustomerName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ImageLink" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Orders">
     <Key>

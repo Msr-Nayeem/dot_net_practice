@@ -12,6 +12,7 @@
     <EntitySetMapping Name="Customers">
       <EntityTypeMapping TypeName="StudentModel1.Customer">
         <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="ImageLink" ColumnName="ImageLink" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
           <ScalarProperty Name="Email" ColumnName="Email" />
