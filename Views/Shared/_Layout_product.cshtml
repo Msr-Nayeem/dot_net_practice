@@ -9,6 +9,12 @@
     @Styles.Render("~/Content/ProductNav.css")
 
     @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-9OG4RL4vjyCtCKMAv/cI95a+PmYShn/8kxjtkbm/9lE1I+18yJn75yk2vslPxnG+tNwzmYlTh8Iv74fR9X4omQ==" crossorigin="anonymous" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -36,9 +42,7 @@
         @RenderBody()
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+   
 
 
     <script>

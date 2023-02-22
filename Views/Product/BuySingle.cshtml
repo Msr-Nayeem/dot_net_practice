@@ -1,148 +1,84 @@
-﻿
-
-
-@{
-    ViewBag.Title = "BuySingle";
+﻿@{
+    ViewBag.Title = "Order Cart";
     Layout = "~/Views/Shared/_Layout_product.cshtml";
 }
-
-<style>
-    .containerr {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 10%;
-        right: 10%;
-        margin: auto;
-        max-height: 80%;
-        overflow-y: auto;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        border: 1px solid black;
-        text-align: center;
-    }
-
-    .order-summary {
-        height: 10%;
-        background-color: #3498db;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .order-details {
-        height: 70%;
-        background-color: #ecf0f1;
-        padding: 10px;
-        overflow-y: scroll;
-    }
-
-    .item-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 10px;
-        border-bottom: 2px solid #000;
-    }
-
-    .item-image {
-        width: 30%;
-        height: 100px;
-        text-align: center;
-    }
-
-        .item-image img {
-            max-width: 100%;
-            max-height: 100%;
-            margin-left: -100px;
-        }
-
-    .item-title {
-        width: 50%;
-        text-align: left;
-    }
-
-    .item-quantity {
-        width: 10%;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .qty-input {
-        width: 100%;
-        text-align: center;
-        border: none;
-        background-color: #fff;
-    }
-
-    .arrow {
-        cursor: pointer;
-        font-size: 20px;
-        line-height: 1;
-    }
-
-    .item-price {
-        width: 5%;
-        text-align: right;
-    }
-
-    .order-total {
-        height: 10%;
-        background-color: #2ecc71;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .order-button {
-        margin-top: 10px;
-        background-color: #e74c3c;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 5px;
-        float: right;
-    }
-
-        .order-button:hover {
-            background-color: #c0392b;
-        }
-</style>
-
+@Styles.Render("~/Content/OrderCart.css")
 <div class="containerr">
     <div class="order-summary">
         <h2>Cart</h2>
     </div>
     <div class="order-details">
-
+        <div class="item-row header-row">
+            <div>Sl No</div>
+            <div>Image</div>
+            <div>Product Name</div>
+            <div></div>
+            <div>Quantity</div>
+            <div></div>
+            <div>Price</div>
+            <div>Total Price</div>
+            <div></div>
+            <div></div>
+        </div>
         <!-- add more item rows here -->
         <div class="item-row">
             <div>1</div>
             <div class="item-image"><img src="@Url.Content("~/UploadedFiles/" + @Model.ImageLink)" alt="@Model.ProductName"></div>
             <div class="item-title">@Model.ProductName</div>
             <div class="item-quantity">
-                <span class="arrow" id="decrease-qty">&#9650;</span>
-                <input type="text" id="quantity" class="qty-input" value="1">
-                <span class="arrow" id="increase-qty">&#9660;</span>
+                <span class="arrow" id="increase-qty">&#9650;</span>
+                <input type="text" id="quantity" name="quantity" class="qty-input" value="1">
+                <span class="arrow" id="decrease-qty">&#9660;</span>
             </div>
-            c
+            <div class="item-price"> @Model.ProductPrice BDT</div>
+            <div class="item-price"><input type="text" id="price" value="@Model.ProductPrice" readonly>  BDT</div>
         </div>
     </div>
     <div class="order-total">
-        <h3>Total: $100</h3>
+        <input type="text" name="total_price" id="total_price" readonly />  BDT
     </div>
     <div>
         <button class="order-button">Order now</button>
     </div>
 </div>
 
-<div class="order-total">
-    <h3>Total: $100</h3>
-</div>
-<div>
-    <button class="order-button">Order now</button>
-</div>
+
+<script>
+    $(document).ready(function () {
+        updateTotalPrice();
+        $('.item-row').each(function () {
+            var $row = $(this);
+            var $qtyInput = $row.find('.qty-input');
+            var $priceInput = $row.find('#price');
+            var price = parseInt($priceInput.val());
+
+            $row.find('#increase-qty').click(function () {
+                var qty = parseInt($qtyInput.val());
+                qty++;
+                $qtyInput.val(qty);
+                $priceInput.val(qty * price);
+                updateTotalPrice();
+            });
+
+            $row.find('#decrease-qty').click(function () {
+                var qty = parseInt($qtyInput.val());
+                if (qty > 1) {
+                    qty--;
+                    $qtyInput.val(qty);
+                    $priceInput.val(qty * price);
+                    updateTotalPrice();
+                }
+            });
+        });
+    });
+
+    function updateTotalPrice() {
+        var subtotalInputs = $('input[id^="price"]');
+        var totalPrice = 0;
+        subtotalInputs.each(function () {
+            totalPrice += parseFloat($(this).val());
+        });
+        $('#total_price').val(totalPrice);
+    }
+
+</script>

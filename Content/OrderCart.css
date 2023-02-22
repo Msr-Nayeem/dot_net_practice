@@ -1,0 +1,95 @@
+﻿.containerr {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    margin: auto;
+    max-height: 80%;
+    overflow-y: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid black;
+    text-align: center;
+}
+
+.order-summary {
+    height: 10%;
+    background-color: #3498db;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.order-details {
+    height: 70%;
+    background-color: #ecf0f1;
+    padding: 10px;
+    overflow-y: scroll;
+}
+
+.item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #000;
+}
+
+.header-row {
+    font-weight: bold;
+    border-bottom: 2px solid #ccc;
+}
+
+.item-image img {
+    max-width: 100px;
+    max-height: 100px;
+    height: auto;
+}
+
+.item-quantity {
+    display: flex;
+    align-items: center;
+}
+
+.arrow {
+    cursor: pointer;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.qty-input {
+    width: 30px;
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+
+.item-price {
+    margin-left: 10px;
+}
+
+.order-total {
+    height: 10%;
+    background-color: #2ecc71;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.order-button {
+    margin-top: 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    float: right;
+}
+
+    .order-button:hover {
+        background-color: #c0392b;
+    }
