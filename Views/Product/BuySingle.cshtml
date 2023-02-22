@@ -1,0 +1,148 @@
+﻿
+
+
+@{
+    ViewBag.Title = "BuySingle";
+    Layout = "~/Views/Shared/_Layout_product.cshtml";
+}
+
+<style>
+    .containerr {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 10%;
+        right: 10%;
+        margin: auto;
+        max-height: 80%;
+        overflow-y: auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        border: 1px solid black;
+        text-align: center;
+    }
+
+    .order-summary {
+        height: 10%;
+        background-color: #3498db;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .order-details {
+        height: 70%;
+        background-color: #ecf0f1;
+        padding: 10px;
+        overflow-y: scroll;
+    }
+
+    .item-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #000;
+    }
+
+    .item-image {
+        width: 30%;
+        height: 100px;
+        text-align: center;
+    }
+
+        .item-image img {
+            max-width: 100%;
+            max-height: 100%;
+            margin-left: -100px;
+        }
+
+    .item-title {
+        width: 50%;
+        text-align: left;
+    }
+
+    .item-quantity {
+        width: 10%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .qty-input {
+        width: 100%;
+        text-align: center;
+        border: none;
+        background-color: #fff;
+    }
+
+    .arrow {
+        cursor: pointer;
+        font-size: 20px;
+        line-height: 1;
+    }
+
+    .item-price {
+        width: 5%;
+        text-align: right;
+    }
+
+    .order-total {
+        height: 10%;
+        background-color: #2ecc71;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .order-button {
+        margin-top: 10px;
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        float: right;
+    }
+
+        .order-button:hover {
+            background-color: #c0392b;
+        }
+</style>
+
+<div class="containerr">
+    <div class="order-summary">
+        <h2>Cart</h2>
+    </div>
+    <div class="order-details">
+
+        <!-- add more item rows here -->
+        <div class="item-row">
+            <div>1</div>
+            <div class="item-image"><img src="@Url.Content("~/UploadedFiles/" + @Model.ImageLink)" alt="@Model.ProductName"></div>
+            <div class="item-title">@Model.ProductName</div>
+            <div class="item-quantity">
+                <span class="arrow" id="decrease-qty">&#9650;</span>
+                <input type="text" id="quantity" class="qty-input" value="1">
+                <span class="arrow" id="increase-qty">&#9660;</span>
+            </div>
+            c
+        </div>
+    </div>
+    <div class="order-total">
+        <h3>Total: $100</h3>
+    </div>
+    <div>
+        <button class="order-button">Order now</button>
+    </div>
+</div>
+
+<div class="order-total">
+    <h3>Total: $100</h3>
+</div>
+<div>
+    <button class="order-button">Order now</button>
+</div>

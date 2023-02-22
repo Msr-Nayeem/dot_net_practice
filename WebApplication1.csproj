@@ -218,6 +218,12 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\BuySingle.css" />
+    <Content Include="Content\product.css" />
+    <Content Include="Content\productCard.css" />
+    <None Include="Content\productDetails.scss" />
+    <Content Include="Content\productDetails.css" />
+    <Content Include="Content\ProductNav.css" />
     <Content Include="CustomValidation\Cours.txt" />
     <Content Include="CustomValidation\CourseStudent.txt" />
     <Content Include="CustomValidation\Dept.txt" />
@@ -314,6 +320,8 @@
     <Content Include="Views\Product\Customers.cshtml" />
     <Content Include="Views\Product\CustomerInfo.cshtml" />
     <Content Include="Views\Product\NewCustomer.cshtml" />
+    <Content Include="Views\Product\ProductDetails.cshtml" />
+    <Content Include="Views\Product\BuySingle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

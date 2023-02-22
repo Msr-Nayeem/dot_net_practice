@@ -14,7 +14,10 @@ namespace WebApplication1.Controllers
         // GET: Product
         public ActionResult Index()
         {
-            return View();
+            var db = new StudentEntities2();
+            var data = db.Products.ToList();
+
+            return View(data);
         }  
 
 
@@ -96,6 +99,13 @@ namespace WebApplication1.Controllers
         {
             return View();
         }        
+
+        public ActionResult ProductDetails(int? id)
+        {
+            var db = new StudentEntities2();
+            var data = db.Products.Include("Cetegory").Where(p => p.Id == id).SingleOrDefault();
+            return View(data);
+        }
         public ActionResult Cetegory()
         {
             var db = new StudentEntities2();
@@ -179,5 +189,14 @@ namespace WebApplication1.Controllers
 
         }
         
+
+
+        public ActionResult BuySingle(int? id)
+        {
+            var db = new StudentEntities2();
+            var data = db.Products.Where(p => p.Id == id).SingleOrDefault();
+           
+            return View(data);
+        }
     }
 }

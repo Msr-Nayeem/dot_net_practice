@@ -1,0 +1,10 @@
+﻿.navbar-inverse {
+    background-color: blue /* orange */
+
+}
+
+    .navbar-inverse .nav > li.active > a {
+        background-color: darkorange; /* purple */
+        color: black; /* white */
+
+    }

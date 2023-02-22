@@ -1,0 +1,57 @@
+﻿@import url(https://fonts.googleapis.com/css?family=Lato:400,300,700);
+
+
+
+
+
+.thin {
+    font-weight: 400;
+}
+
+.small {
+    font-size: 12px;
+    font-size: .8rem;
+}
+
+
+
+
+
+
+
+.price {
+    bottom: 0px;
+    position: absolute;
+    right: 0px;
+    color: #4488dd;
+}
+
+
+
+.order-table {
+    position: relative;
+}
+
+.line {
+    height: 1px;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background: #ddd;
+}
+
+.order-table td:last-of-type {
+    vertical-align: top;
+    padding-left: 25px;
+}
+
+
+
+.full-width {
+    width: 100%;
+}
+
+ 
+
+
+
