@@ -190,8 +190,6 @@ namespace WebApplication1.Controllers
 
         }
         
-
-
         public ActionResult Cart()
         {
             //if(Session["customerId"] == null)

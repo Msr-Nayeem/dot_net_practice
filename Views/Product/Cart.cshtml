@@ -13,13 +13,14 @@
             <div>Sl No</div>
             <div>Image</div>
             <div>Product Name</div>
-            <div></div>
+
             <div>Quantity</div>
             <div></div>
             <div>Price</div>
+            <div></div>
             <div>Total Price</div>
             <div></div>
-            <div></div>
+
         </div>
         <!-- add more item rows here -->
         @if (Model.Any())
@@ -30,7 +31,10 @@
 
             foreach (var product in Model)
             {
+               
                 <div class="item-row">
+                    <input type="text" id="productId" value="@product.ProductId" hidden />
+                    <input type="text" id="customerId" value="1" hidden />
                     <div>@counter</div>
                     <div class="item-image"><img src="@Url.Content("~/UploadedFiles/" + product.Product.ImageLink)" alt="@product.Product.ProductName"></div>
                     <div class="item-title">@product.Product.ProductName</div>
@@ -39,8 +43,8 @@
                         <input type="text" id="quantity" name="quantity" class="qty-input" value="@product.Quantity">
                         <span class="arrow" id="decrease-qty">&#9660;</span>
                     </div>
-                    <div class="item-price"> @product.Product.ProductPrice BDT</div>
-                    <div class="item-price"><input type="text" id="price" value="@product.Product.ProductPrice" readonly>  BDT</div>
+                    <div class="item-price"><input type="text" id="item_price" value="@product.Product.ProductPrice" readonly></div>
+                    <div class="item-price"><input type="text" id="total_price" value="@product.Product.ProductPrice" readonly>  BDT</div>
                 </div>
                 counter++;
             }
@@ -53,7 +57,7 @@
 
     </div>
     <div class="order-total">
-        <input type="text" name="total_price" id="total_price" readonly />  BDT
+        <input type="text" name="last_price" id="last_price" readonly />  BDT
     </div>
     <div>
         <button class="order-button">Order now</button>
@@ -63,40 +67,96 @@
 
 <script>
     $(document).ready(function () {
-        updateTotalPrice();
+
         $('.item-row').each(function () {
             var $row = $(this);
-            var $qtyInput = $row.find('.qty-input');
-            var $priceInput = $row.find('#price');
-            var price = parseInt($priceInput.val());
 
+            var totalInput = parseFloat($row.find('#total_price').val());
+            var itemPrice = parseFloat($row.find('#item_price').val());
+            var qty = parseInt($row.find('.qty-input').val());
+
+            var calc = qty * itemPrice;
+            $row.find('#total_price').val(calc);
+
+        });
+
+
+        updateTotalPrice();
+
+        $('.item-row').each(function () {
+            var $row = $(this);
+
+            var cusId = $row.find('#customerId').val();
+            var prId = $row.find('#productId').val();
+
+            var $qtyInput = $row.find('.qty-input');
+            var $priceInput = $row.find('#total_price');
+            var price = parseInt($priceInput.val());
+            var itemPrice = parseFloat($row.find('#item_price').val());
             $row.find('#increase-qty').click(function () {
-                var qty = parseInt($qtyInput.val());
-                qty++;
-                $qtyInput.val(qty);
-                $priceInput.val(qty * price);
-                updateTotalPrice();
+                    $.ajax({
+                        url: '@Url.Action("QuantityIncrease", "API")',
+                        type: 'GET',
+                        data: { productId: prId, customerId: cusId }, // pass deptId as a parameter
+                        success: function (data) {
+                            if (data.result == "success") {
+
+                                var qty = parseInt($qtyInput.val());
+                                    qty++;
+                                $qtyInput.val(qty);
+                                $priceInput.val(qty * itemPrice);
+                                updateTotalPrice();
+                            }
+                            else {
+                                console.log("failed to update");
+                            }
+                        },
+                        error: function() {
+                            console.log('An error occurred while loading the courses.');
+                        }
+                    });
             });
 
             $row.find('#decrease-qty').click(function () {
                 var qty = parseInt($qtyInput.val());
                 if (qty > 1) {
-                    qty--;
-                    $qtyInput.val(qty);
-                    $priceInput.val(qty * price);
-                    updateTotalPrice();
+                    //qty--;
+                    //$qtyInput.val(qty);
+                    //$priceInput.val(qty * price);
+                    //updateTotalPrice();
+                    $.ajax({
+                        url: '@Url.Action("QuantityDecrease", "API")',
+                        type: 'GET',
+                        data: { productId: prId, customerId: cusId }, // pass deptId as a parameter
+                        success: function (data) {
+                            if (data.result == "success") {
+
+                                var qty = parseInt($qtyInput.val());
+                                    qty--;
+                                $qtyInput.val(qty);
+                                $priceInput.val(qty * itemPrice);
+                                updateTotalPrice();
+                            }
+                            else {
+                                console.log("failed to update");
+                            }
+                        },
+                        error: function() {
+                            console.log('An error occurred while loading the courses.');
+                        }
+                    });
                 }
             });
         });
     });
 
     function updateTotalPrice() {
-        var subtotalInputs = $('input[id^="price"]');
+        var subtotalInputs = $('input[id^="total_price"]');
         var totalPrice = 0;
         subtotalInputs.each(function () {
             totalPrice += parseFloat($(this).val());
         });
-        $('#total_price').val(totalPrice);
+        $('#last_price').val(totalPrice);
     }
 
 </script>

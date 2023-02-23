@@ -99,6 +99,41 @@ namespace WebApplication1.Controllers
             }
             
         }
+
+        public ActionResult QuantityIncrease(int? productId,int? customerId)
+        {
+            if (productId.HasValue && customerId.HasValue)
+            {
+                var db = new StudentEntities2();
+                var data = db.OrderCarts.Where(i => i.CustomerId == customerId && i.ProductId == productId).SingleOrDefault();
+                data.Quantity += 1;
+                db.SaveChanges();
+                return Json(new { result = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { result = "Failed to Update" }, JsonRequestBehavior.AllowGet);
+            }
+            
+        }   
+        public ActionResult QuantityDecrease(int? productId,int? customerId)
+        {
+            if (productId.HasValue && customerId.HasValue)
+            {
+                var db = new StudentEntities2();
+                var data = db.OrderCarts.Where(i => i.CustomerId == customerId && i.ProductId == productId).SingleOrDefault();
+                    data.Quantity -= 1;
+                    db.SaveChanges();
+                    return Json(new { result = "success" }, JsonRequestBehavior.AllowGet);
+
+               
+            }
+            else
+            {
+                return Json(new { result = "Failed to Update" }, JsonRequestBehavior.AllowGet);
+            }
+            
+        }
     
 
     }
