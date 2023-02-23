@@ -105,24 +105,3 @@ body {
             margin: 0;
         }
 
-        .card .description button {
-            outline: 0;
-            border: 0;
-            background: none;
-            border: 1px solid #d9d9d9;
-            padding: 8px 0px;
-            margin-bottom: 30px;
-            color: #515151;
-            text-transform: uppercase;
-            width: 125px;
-            font-family: inherit;
-            margin-right: 5px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-            .card .description button:hover {
-                border: 1px solid #aedaa6;
-                color: #aedaa6;
-                cursor: pointer;
-            }

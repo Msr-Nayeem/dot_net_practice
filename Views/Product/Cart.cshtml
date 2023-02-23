@@ -1,0 +1,102 @@
+﻿@model List<WebApplication1.Entity.OrderCart>
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout_product.cshtml";
+}
+@Styles.Render("~/Content/OrderCart.css")
+<div class="containerr">
+    <div class="order-summary">
+        <h2>Cart</h2>
+    </div>
+    <div class="order-details">
+        <div class="item-row header-row">
+            <div>Sl No</div>
+            <div>Image</div>
+            <div>Product Name</div>
+            <div></div>
+            <div>Quantity</div>
+            <div></div>
+            <div>Price</div>
+            <div>Total Price</div>
+            <div></div>
+            <div></div>
+        </div>
+        <!-- add more item rows here -->
+        @if (Model.Any())
+        {
+            
+                var counter = 1;
+           
+
+            foreach (var product in Model)
+            {
+                <div class="item-row">
+                    <div>@counter</div>
+                    <div class="item-image"><img src="@Url.Content("~/UploadedFiles/" + product.Product.ImageLink)" alt="@product.Product.ProductName"></div>
+                    <div class="item-title">@product.Product.ProductName</div>
+                    <div class="item-quantity">
+                        <span class="arrow" id="increase-qty">&#9650;</span>
+                        <input type="text" id="quantity" name="quantity" class="qty-input" value="@product.Quantity">
+                        <span class="arrow" id="decrease-qty">&#9660;</span>
+                    </div>
+                    <div class="item-price"> @product.Product.ProductPrice BDT</div>
+                    <div class="item-price"><input type="text" id="price" value="@product.Product.ProductPrice" readonly>  BDT</div>
+                </div>
+                counter++;
+            }
+
+        }
+        else
+        {
+            <span> No Product Available</span>
+        }
+
+    </div>
+    <div class="order-total">
+        <input type="text" name="total_price" id="total_price" readonly />  BDT
+    </div>
+    <div>
+        <button class="order-button">Order now</button>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        updateTotalPrice();
+        $('.item-row').each(function () {
+            var $row = $(this);
+            var $qtyInput = $row.find('.qty-input');
+            var $priceInput = $row.find('#price');
+            var price = parseInt($priceInput.val());
+
+            $row.find('#increase-qty').click(function () {
+                var qty = parseInt($qtyInput.val());
+                qty++;
+                $qtyInput.val(qty);
+                $priceInput.val(qty * price);
+                updateTotalPrice();
+            });
+
+            $row.find('#decrease-qty').click(function () {
+                var qty = parseInt($qtyInput.val());
+                if (qty > 1) {
+                    qty--;
+                    $qtyInput.val(qty);
+                    $priceInput.val(qty * price);
+                    updateTotalPrice();
+                }
+            });
+        });
+    });
+
+    function updateTotalPrice() {
+        var subtotalInputs = $('input[id^="price"]');
+        var totalPrice = 0;
+        subtotalInputs.each(function () {
+            totalPrice += parseFloat($(this).val());
+        });
+        $('#total_price').val(totalPrice);
+    }
+
+</script>

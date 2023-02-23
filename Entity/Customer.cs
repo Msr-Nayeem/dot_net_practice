@@ -20,8 +20,9 @@ namespace WebApplication1.Entity
         public Customer()
         {
             this.Orders = new HashSet<Order>();
+            this.OrderCarts = new HashSet<OrderCart>();
         }
-    
+
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Please enter name.")]
@@ -39,10 +40,12 @@ namespace WebApplication1.Entity
         public HttpPostedFileBase File { get; set; }
 
         public string ImageLink { get; set; }
-    
+
         public virtual Customer Customers1 { get; set; }
         public virtual Customer Customer1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderCart> OrderCarts { get; set; }
     }
 }

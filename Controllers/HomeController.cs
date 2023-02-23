@@ -41,14 +41,13 @@ namespace WebApplication1.Controllers
             {
 
                 var submit = new StudentEntities1();
-                var match = (from d in submit.Students where d.Email== info.Email && d.Password == info.Password select d).SingleOrDefault();
+                var match = submit.Students.SingleOrDefault(d => d.Email == info.Email && d.Password == info.Password);
 
                 if (match != null)
                 {
+                    Session["customerId"] = match.Id;
+
                     //set value in cookie
-                    
-
-
                     if (info.Remember != null)
                     {
                         Response.Cookies["Email"].Value = info.Email.Trim();

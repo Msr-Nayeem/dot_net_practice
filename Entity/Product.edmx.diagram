@@ -5,15 +5,18 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="f6fb46d5268e4b958ed5c8d3ceee955a" Name="Diagram1" ZoomLevel="74">
-        <EntityTypeShape EntityType="StudentModel1.Cetegory" Width="1.5" PointX="1.5" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="StudentModel1.Customer" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="StudentModel1.Order" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="StudentModel1.Product" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentModel1.Cetegory" Width="1.5" PointX="11.375" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentModel1.Customer" Width="1.5" PointX="5.5" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentModel1.Order" Width="1.5" PointX="9.5" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentModel1.Product" Width="1.5" PointX="5.625" PointY="6.125" IsExpanded="true" />
         <AssociationConnector Association="StudentModel1.FK_Cetegory_Cetegory" ManuallyRouted="false" />
         <AssociationConnector Association="StudentModel1.FK_Products_Cetegories" ManuallyRouted="false" />
         <AssociationConnector Association="StudentModel1.FK_Customers_Customers" ManuallyRouted="false" />
         <AssociationConnector Association="StudentModel1.FK_Orders_Customers" ManuallyRouted="false" />
         <AssociationConnector Association="StudentModel1.FK_Orders_Products" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="StudentModel1.OrderCart" Width="1.5" PointX="1.5" PointY="4.25" />
+        <AssociationConnector Association="StudentModel1.FK_OrderCarts_Customers" />
+        <AssociationConnector Association="StudentModel1.FK_OrderCarts_Products" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

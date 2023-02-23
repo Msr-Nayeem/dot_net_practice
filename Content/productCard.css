@@ -127,18 +127,4 @@ a {
         margin-right: 5px;
     }
 
-.product-links {
-    text-align: right;
-}
 
-    .product-links a {
-        display: inline-block;
-        margin-left: 5px;
-        color: #e1e1e1;
-        transition: 0.3s;
-        font-size: 17px;
-    }
-
-        .product-links a:hover {
-            color: #fbb72c;
-        }

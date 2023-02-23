@@ -29,6 +29,8 @@
 }
 
 .item-row {
+    left: 5%;
+    right: 5%;
     display: flex;
     align-items: center;
     justify-content: space-between;

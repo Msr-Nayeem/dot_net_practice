@@ -21,7 +21,8 @@
     <NavigationProperty Name="Customers1" Relationship="Self.FK_Customers_Customers" FromRole="Customers" ToRole="Customers1" />
     <NavigationProperty Name="Customer1" Relationship="Self.FK_Customers_Customers" FromRole="Customers1" ToRole="Customers" />
     <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Customers" FromRole="Customers" ToRole="Orders" />
-    <Property Name="ImageLink" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ImageLink" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="OrderCarts" Relationship="StudentModel1.FK_OrderCarts_Customers" FromRole="Customer" ToRole="OrderCart" />
   </EntityType>
   <EntityType Name="Order">
     <Key>
@@ -47,6 +48,7 @@
     <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Products" FromRole="Products" ToRole="Orders" />
     <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="ImageLink" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="OrderCarts" Relationship="StudentModel1.FK_OrderCarts_Products" FromRole="Product" ToRole="OrderCart" />
   </EntityType>
   <Association Name="FK_Cetegory_Cetegory">
     <End Role="Cetegories" Type="Self.Cetegory" Multiplicity="1" />
@@ -133,5 +135,49 @@
       <End Role="Products" EntitySet="Products" />
       <End Role="Orders" EntitySet="Orders" />
     </AssociationSet>
+    <EntitySet Name="OrderCarts" EntityType="StudentModel1.OrderCart" />
+    <AssociationSet Name="FK_OrderCarts_Customers" Association="StudentModel1.FK_OrderCarts_Customers">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="OrderCart" EntitySet="OrderCarts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderCarts_Products" Association="StudentModel1.FK_OrderCarts_Products">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="OrderCart" EntitySet="OrderCarts" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="OrderCart">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerId" Type="Int32" Nullable="false" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="StudentModel1.FK_OrderCarts_Customers" FromRole="OrderCart" ToRole="Customer" />
+    <NavigationProperty Name="Product" Relationship="StudentModel1.FK_OrderCarts_Products" FromRole="OrderCart" ToRole="Product" />
+  </EntityType>
+  <Association Name="FK_OrderCarts_Customers">
+    <End Type="StudentModel1.Customer" Role="Customer" Multiplicity="1" />
+    <End Type="StudentModel1.OrderCart" Role="OrderCart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderCart">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderCarts_Products">
+    <End Type="StudentModel1.Product" Role="Product" Multiplicity="1" />
+    <End Type="StudentModel1.OrderCart" Role="OrderCart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderCart">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

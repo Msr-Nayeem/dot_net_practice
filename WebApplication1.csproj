@@ -154,6 +154,9 @@
     <Compile Include="Entity\Order.cs">
       <DependentUpon>Product.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\OrderCart.cs">
+      <DependentUpon>Product.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\Product.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -314,7 +317,6 @@
     <Content Include="Views\Dashboard\CourseDetailes.cshtml" />
     <Content Include="Views\Shared\_Layout_product.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
-    <Content Include="Views\Product\AllProducts.cshtml" />
     <Content Include="Views\Product\Cetegory.cshtml" />
     <Content Include="Views\Product\OrderHistory.cshtml" />
     <Content Include="Views\Product\NewProduct.cshtml" />
@@ -323,6 +325,7 @@
     <Content Include="Views\Product\NewCustomer.cshtml" />
     <Content Include="Views\Product\ProductDetails.cshtml" />
     <Content Include="Views\Product\BuySingle.cshtml" />
+    <Content Include="Views\Product\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

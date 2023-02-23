@@ -10,9 +10,9 @@
 namespace WebApplication1.Entity
 {
     using System;
+    using System.Web;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Web;
 
     public partial class Product
     {
@@ -20,6 +20,7 @@ namespace WebApplication1.Entity
         public Product()
         {
             this.Orders = new HashSet<Order>();
+            this.OrderCarts = new HashSet<OrderCart>();
         }
 
         public int Id { get; set; }
@@ -48,5 +49,7 @@ namespace WebApplication1.Entity
         public virtual Cetegory Cetegory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderCart> OrderCarts { get; set; }
     }
 }

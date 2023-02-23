@@ -7,78 +7,84 @@
 
 
 @*<div class="container text-center">
-    <div class="row">
-    </div>
-    <div class="col" style="background-image: url('@Url.Content("~/UploadedFiles/" + @Model.ImageLink)'); width: 300px; height: 400px; background-size: cover; background-position: center;">
-    </div>
-    <div class="col">
-        <h2>@Model.ProductName</h2>
-        <h4>@Model.Cetegory.CetegoryName</h4>
-        <h1>@Model.ProductPrice BDT</h1>
-        <p>@Model.Description</p>
-        <button class="btn btn-primary">Add to Cart</button>
-        <button class="btn btn-secondary">Wishlist</button>
-    </div>
-</div>
-
-<div class="container text-center">
-    <div class="row">
-        <div class="col-sm-3">
-            <img src="@Url.Content("~/UploadedFiles/" + @Model.ImageLink)" alt="@Model.ProductName">
+        <div class="row">
         </div>
-        <div class="col-sm-9">
-            <div class="row">
-                <div class="col-8 col-sm-6">
-                    <h2>@Model.ProductName</h2>
-                    <h4>@Model.Cetegory.CetegoryName</h4>
-                </div>
-                <div class="col-4 col-sm-6">
-                    <h1>@Model.ProductPrice BDT</h1>
-                    <p>@Model.Description</p>
-                    <button class="btn btn-primary">Add to Cart</button>
-                    <button class="btn btn-secondary">Wishlist</button>
+        <div class="col" style="background-image: url('@Url.Content("~/UploadedFiles/" + @Model.ImageLink)'); width: 300px; height: 400px; background-size: cover; background-position: center;">
+        </div>
+        <div class="col">
+            <h2>@Model.ProductName</h2>
+            <h4>@Model.Cetegory.CetegoryName</h4>
+            <h1>@Model.ProductPrice BDT</h1>
+            <p>@Model.Description</p>
+            <button class="btn btn-primary">Add to Cart</button>
+            <button class="btn btn-secondary">Wishlist</button>
+        </div>
+    </div>
+
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-sm-3">
+                <img src="@Url.Content("~/UploadedFiles/" + @Model.ImageLink)" alt="@Model.ProductName">
+            </div>
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-8 col-sm-6">
+                        <h2>@Model.ProductName</h2>
+                        <h4>@Model.Cetegory.CetegoryName</h4>
+                    </div>
+                    <div class="col-4 col-sm-6">
+                        <h1>@Model.ProductPrice BDT</h1>
+                        <p>@Model.Description</p>
+                        <button class="btn btn-primary">Add to Cart</button>
+                        <button class="btn btn-secondary">Wishlist</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>*@
+    </div>*@
 
 @*<div class="wrapper">
-    <div class="product-img">
-        <img src="@Url.Content("~/UploadedFiles/" + @Model.ImageLink)" height="420" width="327" alt="@Model.ProductName">
-    </div>
-    <div class="product-info">
-        <div class="product-text">
-            <h1>@Model.ProductName</h1>
-            <h2>@Model.Cetegory.CetegoryName</h2>
-            <p>@Model.Description </p>
+        <div class="product-img">
+            <img src="@Url.Content("~/UploadedFiles/" + @Model.ImageLink)" height="420" width="327" alt="@Model.ProductName">
         </div>
-        <div class="product-price-btn">
-            <p><span>@Model.ProductPrice ৳</span></p>
-            <button type="button">buy now</button>
+        <div class="product-info">
+            <div class="product-text">
+                <h1>@Model.ProductName</h1>
+                <h2>@Model.Cetegory.CetegoryName</h2>
+                <p>@Model.Description </p>
+            </div>
+            <div class="product-price-btn">
+                <p><span>@Model.ProductPrice ৳</span></p>
+                <button type="button">buy now</button>
+            </div>
         </div>
-    </div>
-</div>*@
+    </div>*@
+@if (TempData["Result"] != null)
+{
+    <div class="alert alert-success text-center">@TempData["Result"]</div>
+}
 
 <div class="card">
-    
 
-        <nav>
-            <a href="@(Request.UrlReferrer?.ToString() ?? Url.Action("Index", "Home"))">
-                <svg class="arrow" version="1.1" viewBox="0 0 512 512" width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon points="352,115.4 331.3,96 160,256 331.3,416 352,396.7 201.5,256 " stroke="#727272" />
+
+    <nav>
+        <a href="@(Request.UrlReferrer?.ToString() ?? Url.Action("Index", "Home"))">
+            <svg class="arrow" version="1.1" viewBox="0 0 512 512" width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon points="352,115.4 331.3,96 160,256 331.3,416 352,396.7 201.5,256 " stroke="#727272" />
         </svg>Back
-            </a>
-        </nav>
-        <div class="photo">
-            <img src="@Url.Content("~/UploadedFiles/" + @Model.ImageLink)" alt="@Model.ProductName">
-        </div>
-        <div class="description">
-            <h2>@Model.ProductName</h2>
-            <h4>@Model.Cetegory.CetegoryName</h4>
-            <h1>@Model.ProductPrice ৳</h1>
-            <p>@Model.Description</p>
-            <button>Add to Cart</button>
-            <a class="btn btn-primary" href="@Url.Action("BuySingle", "Product", new { id = Model.Id })">Buy Now</a>
-        </div>
-   
+        </a>
+    </nav>
+    <div class="photo">
+        <img src="@Url.Content("~/UploadedFiles/" + @Model.ImageLink)" alt="@Model.ProductName">
+    </div>
+    <div class="description">
+        <h2>@Model.ProductName</h2>
+        <h4>@Model.Cetegory.CetegoryName</h4>
+        <h1>@Model.ProductPrice ৳</h1>
+        <p>@Model.Description</p>
+        <a class="btn btn-primary" href="@Url.Action("AddToCart", "Product", new { productId = Model.Id })"> 
+                   Add To Cart
+        </a>
+        <a class="btn btn-primary" href="@Url.Action("BuySingle", "Product", new { id = Model.Id })">Buy Now</a>
+    </div>
+
 </div>

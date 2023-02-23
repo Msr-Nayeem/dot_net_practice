@@ -11,6 +11,7 @@ namespace WebApplication1.Controllers
 {
     public class ProductController : Controller
     {
+     
         // GET: Product
         public ActionResult Index()
         {
@@ -191,12 +192,70 @@ namespace WebApplication1.Controllers
         
 
 
+        public ActionResult Cart()
+        {
+            //if(Session["customerId"] == null)
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+            //else
+            //{
+            //    int customerId = (int)Session["customerId"];
+            //    var db = new StudentEntities2();
+            //    var items = db.OrderCarts.Where(i => i.CustomerId == customerId).ToList();
+
+            //    return View(items);
+            //}
+            var db = new StudentEntities2();
+            var items = db.OrderCarts.Include("Product").Where(i => i.CustomerId == 1).ToList();
+
+            return View(items);
+
+        }    
         public ActionResult BuySingle(int? id)
         {
             var db = new StudentEntities2();
             var data = db.Products.Where(p => p.Id == id).SingleOrDefault();
            
             return View(data);
+        }
+
+        public ActionResult AddToCart(int? productId)
+        {
+            if (productId.HasValue)
+            {
+                var db = new StudentEntities2();
+                var data = db.OrderCarts.Where(i => i.CustomerId == 1 && i.ProductId == productId.Value).SingleOrDefault();
+                if (data == null)
+                {
+                    var newdata = new OrderCart
+                    {
+                        CustomerId = 1,
+                        ProductId = productId.Value,
+                        Quantity = 1
+
+                    };
+                    db.OrderCarts.Add(newdata);
+                    db.SaveChanges();
+                    TempData["Result"] = "Item added to cart successfully!";
+                    
+                }
+                else
+                {
+                    data.Quantity += 1;
+                    db.SaveChanges();
+                    TempData["Result"] = "Item added to cart successfully!";
+                    ;
+                }
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            else
+            {
+                TempData["Result"] = "Failed to Add item in cart !";
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+           
+            
         }
     }
 }
